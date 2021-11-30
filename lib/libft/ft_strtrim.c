@@ -6,11 +6,10 @@
 /*   By: dmercadi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:17:48 by dmercadi          #+#    #+#             */
-/*   Updated: 2021/03/24 18:24:10 by dmercadi         ###   ########.fr       */
+/*   Updated: 2021/03/25 22:42:49 by dmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
 
 static int	isinset(char c, char const *set)
@@ -26,7 +25,7 @@ static int	isinset(char c, char const *set)
 
 static int	trimstart(char const *str, char const *set)
 {
-	int start;
+	int	start;
 
 	start = 0;
 	while (isinset(str[start], set) && str[start])
@@ -50,10 +49,10 @@ static int	trimend(char const *str, char const *set)
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int	start;
-	int	end;
-	int i;
-	char *trim;
+	int		start;
+	int		end;
+	int		i;
+	char	*trim;
 
 	if (!s1)
 		return (NULL);

@@ -5,6 +5,7 @@
 # include <stdio.h>
 # include <math.h>
 # include "libft.h"
+# include "mlx.h"
 # define EXEC_PROTO "Usage : fractol <fractal-type> <precision:int> <screen-size:int,int>\n"
 # define ERR_NOARG "Please enter some arguments\n"
 # define ERR_MALLOC "We got some trouble to malloc capitain\n"
@@ -14,11 +15,19 @@ typedef struct s_fractol		t_fractol;
 typedef struct s_fract_screen	t_fract_screen;
 typedef struct s_fract_ros		t_fract_ros;
 typedef struct s_complexe 		t_complexe;
+typedef struct s_suite			t_suite;
 
 struct s_complexe
 {
 	long double reel;
 	long double img;
+};
+
+
+struct s_suite
+{
+	t_complexe *z;
+	void (* next)(t_complexe *, t_complexe *);
 };
 
 typedef enum s_fract_type
@@ -47,19 +56,31 @@ struct s_fract_ros
 
 struct s_fractol
 {
-	void* mlx;
-	void *win;
-	short int precision;
-	t_fract_type fract_type;
-	t_fract_screen fract_screen;
-	t_fract_ros fract_ros;
+	void*			mlx;
+	void			*win;
+	void			*img;
+	char			*addr;
+	int				bits_per_pixel;
+	int				line_length;
+	int				endian;
+	int				screen_w;
+	int				screen_h;
+	t_suite 		suite;
+	short int		precision;
+	t_fract_type	fract_type;
+	t_fract_screen	fract_screen;
+	t_fract_ros		fract_ros;
+	long double		pat;
 };
 
 t_complexe *add_complexe(t_complexe *z1, t_complexe *z2);
 t_complexe *sq_complexe(t_complexe *z);
 t_complexe *create_complexe(long double reel, long double img);
+void ft_print_complexe(t_complexe *z);
 long double mod_complexe(t_complexe *z);
 void handle_error(char *err, t_fractol *fractol);
-int ft_strisdigit(char *str)
+int ft_strisdigit(char *str);
+void display(t_fractol *fractale);
+void ft_mandelbrot(t_complexe *z, t_complexe *z2);
 
 #endif

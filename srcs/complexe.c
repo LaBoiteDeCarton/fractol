@@ -15,7 +15,10 @@ t_complexe *create_complexe(long double reel, long double img)
 	t_complexe *new_z;
 	new_z = (t_complexe *)malloc(sizeof(t_complexe));
 	if (!new_z)
+	{
+		ft_putstr_fd("Error on malloc, complexe is NULL", 0);
 		return (NULL);
+	}
 	new_z->reel = reel;
 	new_z->img = img;
 	return (new_z);
@@ -24,4 +27,9 @@ t_complexe *create_complexe(long double reel, long double img)
 long double mod_complexe(t_complexe *z)
 {
 	return (sqrtl(powl(z->reel, 2.0) + powl(z->img, 2.0)));
+}
+
+void ft_print_complexe(t_complexe *z)
+{
+	printf("%Lf + %LfZ\n", z->reel, z->img);
 }

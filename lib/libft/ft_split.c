@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
 
 static int	sepcount(char const *s, char c)
@@ -43,7 +42,7 @@ static int	next_word_len(char const *s, char c)
 	count = 0;
 	while (*s == c)
 		s++;
-	while (*s && *s != c)
+	while (*s != c)
 	{
 		count++;
 		s++;
@@ -94,7 +93,7 @@ char	**ft_split(char const *s, char c)
 
 	size = sepcount(s, c);
 	split_tab = malloc(sizeof(char *) * (size + 1));
-	if (!split_tab)
+	if (!split_tab || !s)
 		return (NULL);
 	else
 	{

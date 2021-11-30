@@ -2,13 +2,13 @@
 #include "mlx.h"
 #include "libft.h"
 
-static init_second_arg(char *str, fractol)
+static void init_second_arg(char *str, t_fractol *fractol)
 {
 	if (ft_strisdigit(str))
-		fractol->ft_atoi(str);
+		fractol->precision = ft_atoi(str);
 }
 
-static init_first_arg(char *str, t_fractol *fractol)
+static void init_first_arg(char *str, t_fractol *fractol)
 {
 	if (!ft_strncmp(str, "mandelbrot", 11))
 		fractol->fract_type = mandelbrot;
@@ -20,9 +20,11 @@ static init_first_arg(char *str, t_fractol *fractol)
 
 static void init_arg_fractol(int ac, char **av, t_fractol *fractol)
 {
-	if (ac <= 0)
+	if (ac < 0)
 		return (handle_error(ERR_NOARG, fractol));
 	init_first_arg(av[0],fractol);
+	if (ac > 1)
+		init_second_arg(av[1], fractol);
 
 }
 
@@ -34,11 +36,20 @@ int main(int ac, char **av)
 
 	fractol = (t_fractol *)malloc(sizeof(t_fractol));
 	if (!fractol)
-		handle_error(ERR_MALLOC);
+		handle_error(ERR_MALLOC, fractol);
 	init_arg_fractol(ac - 1, av + 1, fractol);
+	fractol->screen_w = 800;
+	fractol->screen_h = 500;
+	fractol->suite.next = ft_mandelbrot;
+	fractol->precision = 15;
+	fractol->fract_ros.h_s = -2;
+	fractol->fract_ros.v_s = 1;
+	fractol->fract_ros.h_e = 1;
+	fractol->fract_ros.v_e = -1;
+	fractol->pat = 0.008;
 	fractol->mlx = mlx_init();
-	fractol->win = mlx_new_window(fractol->mlx, 800, 500, "Fractol - 42 Project");
-	mlx_pixel_put(fractol->mlx, fractol->win, 10, 10, 255);
+	fractol->win = mlx_new_window(fractol->mlx, fractol->screen_w, fractol->screen_h, "Fractol - 42 Project");
+	display(fractol);
 	//void *image = mlx_new_image(vars.mlx, 640, 360);
     
     // int pixel_bits;
