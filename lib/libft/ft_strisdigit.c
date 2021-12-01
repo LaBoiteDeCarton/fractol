@@ -2,7 +2,7 @@
 
 int ft_strisdigit(char *str)
 {
-	while (str)
+	while (*str)
 	{
 		if (!ft_isdigit(*str))
 			return (0);

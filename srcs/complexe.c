@@ -1,35 +1,27 @@
 #include "fractol.h"
 
-t_complexe	*add_complexe(t_complexe *z1, t_complexe *z2)
+void add_complexe(t_complexe *z, t_complexe z1, t_complexe z2)
 {
-	return (create_complexe(z1->reel + z2->reel, z1->img + z2->img));
+	set_complexe(z, z1.reel + z2.reel, z1.img + z2.img);
 }
 
-t_complexe *sq_complexe(t_complexe *z)
+void sq_complexe(t_complexe *z)
 {
-	return (create_complexe((z->reel * z->reel) - (z->img * z->img), z->img * z->reel * 2));
+	set_complexe(z, (z->reel * z->reel) - (z->img * z->img), z->img * z->reel * 2);
 }
 
-t_complexe *create_complexe(long double reel, long double img)
+void set_complexe(t_complexe *z, long double reel, long double img)
 {
-	t_complexe *new_z;
-	new_z = (t_complexe *)malloc(sizeof(t_complexe));
-	if (!new_z)
-	{
-		ft_putstr_fd("Error on malloc, complexe is NULL", 0);
-		return (NULL);
-	}
-	new_z->reel = reel;
-	new_z->img = img;
-	return (new_z);
+	z->reel = reel;
+	z->img = img;
 }
 
-long double mod_complexe(t_complexe *z)
+long double mod_complexe(t_complexe z)
 {
-	return (sqrtl(powl(z->reel, 2.0) + powl(z->img, 2.0)));
+	return (sqrtl(powl(z.reel, 2.0) + powl(z.img, 2.0)));
 }
 
-void ft_print_complexe(t_complexe *z)
+void ft_print_complexe(t_complexe z)
 {
-	printf("%Lf + %LfZ\n", z->reel, z->img);
+	printf("%Lf + %LfZ\n", z.reel, z.img);
 }

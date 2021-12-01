@@ -1,9 +1,7 @@
 #include "fractol.h"
 
-void handle_error(char *err, t_fractol *fractol)
+void handle_error(char *err)
 {
-	if (fractol)
-		free(fractol);
 	printf("%s%s", err, EXEC_PROTO);
 	exit(0);
 }

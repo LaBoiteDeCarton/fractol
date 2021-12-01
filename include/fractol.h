@@ -10,12 +10,20 @@
 # define ERR_NOARG "Please enter some arguments\n"
 # define ERR_MALLOC "We got some trouble to malloc capitain\n"
 # define ERR_FRACTTYPE "Never heard about that fractal before\n"
+# define ERR_BAD2ARG "The precision should be only digits, like '42'\n"
 
 typedef struct s_fractol		t_fractol;
 typedef struct s_fract_screen	t_fract_screen;
 typedef struct s_fract_ros		t_fract_ros;
 typedef struct s_complexe 		t_complexe;
 typedef struct s_suite			t_suite;
+typedef struct s_color			t_color;
+
+struct s_color
+{
+	short int 	size;
+	int			*colors;
+};
 
 struct s_complexe
 {
@@ -26,7 +34,7 @@ struct s_complexe
 
 struct s_suite
 {
-	t_complexe *z;
+	t_complexe z;
 	void (* next)(t_complexe *, t_complexe *);
 };
 
@@ -73,14 +81,14 @@ struct s_fractol
 	long double		pat;
 };
 
-t_complexe *add_complexe(t_complexe *z1, t_complexe *z2);
-t_complexe *sq_complexe(t_complexe *z);
-t_complexe *create_complexe(long double reel, long double img);
-void ft_print_complexe(t_complexe *z);
-long double mod_complexe(t_complexe *z);
-void handle_error(char *err, t_fractol *fractol);
-int ft_strisdigit(char *str);
-void display(t_fractol *fractale);
-void ft_mandelbrot(t_complexe *z, t_complexe *z2);
+void		add_complexe(t_complexe *z1, t_complexe z2, t_complexe z3);
+void		sq_complexe(t_complexe *z);
+void		set_complexe(t_complexe *z, long double reel, long double img);
+void 		ft_print_complexe(t_complexe z);
+long double	mod_complexe(t_complexe z);
+void 		handle_error(char *err);
+void 		display(t_fractol *fractale);
+void 		ft_mandelbrot(t_complexe *z, t_complexe z2);
+int			calc_mandelbrot(t_complexe c, int it);
 
 #endif
