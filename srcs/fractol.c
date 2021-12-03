@@ -14,6 +14,25 @@ void init_arg_fractol(int ac, char **av, t_fractol *fractol)
 		return (handle_error(ERR_FRACTTYPE));
 }
 
+void move_to_down(t_fractol *fractol)
+{
+// 	int i;
+// 	t_complexe position;
+
+	fractol->v_s = fractol->v_s - 50 * fractol->pat;
+	fractol->addr = mlx_get_data_addr(fractol->img, &fractol->bits_per_pixel, &fractol->line_length,
+								&fractol->endian);
+	ft_memmove(fractol->addr, fractol->addr + fractol->line_length, (fractol->v_size - 1) * fractol->line_length);
+	// i = 0;
+	// while (i < fractol->h_size)
+	// {
+	// 	set_complexe(&position, fractol->h_s + i * fractol->pat, 
+	// 						fractol->v_s - fractol->h_size * fractol->pat);
+	// 	fractol->addr[fractol->h_size * fractol->v_size + i] = calc_mandelbrot(position, fractol->precision);
+	// }
+	mlx_put_image_to_window(fractol->mlx, fractol->win, fractol->img, 0, 0);
+}
+
 void display(t_fractol *fractol)
 {
 	int h;
@@ -22,17 +41,17 @@ void display(t_fractol *fractol)
 	int color;
 	t_complexe position;
 
-	fractol->img = mlx_new_image(fractol->mlx, fractol->screen_w, fractol->screen_h);
+	fractol->img = mlx_new_image(fractol->mlx, fractol->v_size, fractol->h_size);
 	fractol->addr = mlx_get_data_addr(fractol->img, &fractol->bits_per_pixel, &fractol->line_length,
 								&fractol->endian);
 	h = 0;
-	while (h < fractol->screen_h)
+	while (h < fractol->h_size)
 	{
 		w = 0;
-		while (w < fractol->screen_w)
+		while (w < fractol->v_size)
 		{
-			set_complexe(&position, fractol->fract_ros.h_s + w * fractol->pat, 
-							fractol->fract_ros.v_s - h * fractol->pat);
+			set_complexe(&position, fractol->h_s + w * fractol->pat, 
+							fractol->v_s - h * fractol->pat);
 			pixel = (h * fractol->line_length) + (w * 4);
 			color = calc_mandelbrot(position, fractol->precision);
 			fractol->addr[pixel] = color;
