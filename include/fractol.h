@@ -6,18 +6,31 @@
 # include <math.h>
 # include "libft.h"
 # include "mlx.h"
-# define EXEC_PROTO "Usage : fractol <fractal-type> <precision:int> <screen-size:int,int>\n"
+# define EXEC_PROTO "Usage : fractol <fractal-type>\n"
 # define ERR_NOARG "Please enter some arguments\n"
 # define ERR_MALLOC "We got some trouble to malloc capitain\n"
 # define ERR_FRACTTYPE "Never heard about that fractal before\n"
 # define ERR_BAD2ARG "The precision should be only digits, like '42'\n"
+# define ERR_TOOMUCHARG "Wait wait wait, you talk too much, tell me only the fractal name please"
+
+# define H_MEDIUM_SIZE 720
+# define V_MEDIUM_SIZE 480
+
+# define K_A_DOWN 125
+# define K_A_UP	126
+# define K_A_LEFT 123
+# define K_A_RIGHT 124
+# define K_P 35
+# define K_M 41
 
 typedef struct s_fractol		t_fractol;
 typedef struct s_complexe 		t_complexe;
+typedef struct s_key_stat		t_key_stat;
 typedef struct s_color			t_color;
 
 struct s_color
 {
+	int t;
 	int r;
 	int g;
 	int b;
@@ -35,9 +48,23 @@ typedef enum s_fract_type
 	julia,
 } t_fract_type;
 
+struct s_key_stat
+{
+	int	k_a_left;
+	int k_a_right;
+	int k_a_up;
+	int k_a_down;
+	int k_zoom;
+	int k_leftclick;
+	int k_p;
+	int k_m;
+};
+
 struct s_fractol
 {
 	t_fract_type	fract_type;
+	t_key_stat		keys;
+	int				redraw;
 	void*			mlx;
 	void			*win;
 	void			*img;
@@ -68,6 +95,12 @@ void 		handle_error(char *err);
 void 		display(t_fractol *fractale);
 void 		ft_mandelbrot(t_complexe *z, t_complexe z2);
 int			calc_mandelbrot(t_complexe c, int it);
-void		move_to_down(t_fractol *fractol);
+void		move_down(t_fractol *fractol);
+void		move_up(t_fractol *fractol);
+void		move_left(t_fractol *fractol);
+void		move_right(t_fractol *fractol);
+void		zoom_out(t_fractol *fractol, int x, int y);
+void		zoom_in(t_fractol *fractol, int x, int y);
+
 
 #endif
