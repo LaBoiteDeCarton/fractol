@@ -12,18 +12,41 @@ static void	init_keys(t_fractol *fractol)
 	fractol->keys.k_a_up = 0;
 }
 
+
+
+void malloc_grille(t_fractol *fractol)
+{
+	int i;
+	fractol->grille = (t_case **)malloc(sizeof(t_case *) * fractol->v_size);
+	if (!fractol->grille)
+		handle_error(ERR_MALLOC);
+	i = 0;
+	while (i < fractol->v_size)
+	{
+		fractol->grille[i] = (t_case *)malloc(sizeof(t_case) * fractol->h_size);
+		if (!fractol->grille[i])
+		{
+			while (--i >= 0) //bien verifier que le free fait tout frire
+				free(fractol->grille[i]);
+			handle_error(ERR_MALLOC);
+		}
+		i++;
+	}
+}
+
 static void put_default_arg(t_fractol *fractol)
 {
+	
 	fractol->h_size = H_MEDIUM_SIZE;
 	fractol->v_size = V_MEDIUM_SIZE;
-	fractol->precision = 10;
+	malloc_grille(fractol);
+	init_grille(fractol);
+	fractol->precision = 100;
 	fractol->redraw = 1;
 	fractol->h_s = -2.25;
-	fractol->v_s = 3.25;
-	fractol->h_e = 1.25;
-	fractol->v_e = -1;
+	fractol->v_s = 1.25;
 	init_keys(fractol);
-	fractol->pat = (fractol->h_e -  fractol->h_s) / fractol->v_size;	
+	fractol->pat = 3.5 / fractol->v_size;	
 }
 
 static void init_first_arg(char *str, t_fractol *fractol)
@@ -50,7 +73,7 @@ int ft_loop_hook(t_fractol *fractol)
 {
 	if (fractol->redraw)
 	{
-		display(fractol);
+		calc(fractol);
 		fractol->redraw = 0;
 	}
 	if (fractol->keys.k_a_left)
@@ -130,7 +153,9 @@ int main(int ac, char **av)
 	init_arg_fractol(ac - 1, av + 1, &fractol);
 	fractol.mlx = mlx_init();
 	fractol.win = mlx_new_window(fractol.mlx, fractol.h_size, fractol.v_size, "Fractol - 42 Project");
-	display(&fractol);
+	fractol.img = mlx_new_image(fractol.mlx, fractol.h_size, fractol.v_size);
+	fractol.addr = mlx_get_data_addr(fractol.img, &fractol.bits_per_pixel, &fractol.line_length,
+								&fractol.endian);
 	mlx_hook(fractol.win, 2, 1L<<0, ft_key_hook, &fractol);
 	mlx_hook(fractol.win, 3, 1L<<1, ft_key_release, &fractol);
 	mlx_mouse_hook(fractol.win, ft_mouse_hook, &fractol);

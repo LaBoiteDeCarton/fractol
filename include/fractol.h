@@ -27,6 +27,7 @@ typedef struct s_fractol		t_fractol;
 typedef struct s_complexe 		t_complexe;
 typedef struct s_key_stat		t_key_stat;
 typedef struct s_color			t_color;
+typedef struct s_case			t_case;
 
 struct s_color
 {
@@ -40,6 +41,12 @@ struct s_complexe
 {
 	long double r;
 	long double i;
+};
+
+struct s_case
+{
+	t_complexe	z;
+	int			it;
 };
 
 typedef enum s_fract_type
@@ -64,6 +71,7 @@ struct s_fractol
 {
 	t_fract_type	fract_type;
 	t_key_stat		keys;
+	t_case			**grille;
 	int				redraw;
 	void*			mlx;
 	void			*win;
@@ -76,9 +84,7 @@ struct s_fractol
 	short int		v_size;
 	long double		h_s;
 	long double		v_s;
-	long double		h_e;
-	long double		v_e;
-	short int		precision;
+	int				precision;
 	long double		pat;
 };
 
@@ -101,6 +107,10 @@ void		move_left(t_fractol *fractol);
 void		move_right(t_fractol *fractol);
 void		zoom_out(t_fractol *fractol, int x, int y);
 void		zoom_in(t_fractol *fractol, int x, int y);
+void		calc(t_fractol *fractol);
+void 		ft_calc_mandelbrot(t_complexe *z, t_complexe c, int *it, int it_max);
+void		next_mandelbrot(t_complexe *prec, t_complexe c);
+void init_grille(t_fractol *fractol);
 
 
 #endif
