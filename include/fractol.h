@@ -90,6 +90,7 @@ struct s_fractol
 
 //Complexe manipulation
 void		add_complexe(t_complexe *z1, t_complexe z2, t_complexe z3);
+void		sub_complexe(t_complexe *z, t_complexe z1, t_complexe z2);
 void		sq_complexe(t_complexe *z);
 void		set_complexe(t_complexe *z, long double reel, long double img);
 long double	mod_complexe(t_complexe z);
@@ -110,7 +111,9 @@ void		zoom_in(t_fractol *fractol, int x, int y);
 void		calc(t_fractol *fractol);
 void 		ft_calc_mandelbrot(t_complexe *z, t_complexe c, int *it, int it_max);
 void		next_mandelbrot(t_complexe *prec, t_complexe c);
-void init_grille(t_fractol *fractol);
+void		init_grille(t_fractol *fractol);
+void		add_precision(t_fractol *fractol);
+void		sub_precision(t_fractol *fractol);
 
 
 #endif

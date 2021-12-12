@@ -41,7 +41,7 @@ static void put_default_arg(t_fractol *fractol)
 	fractol->v_size = V_MEDIUM_SIZE;
 	malloc_grille(fractol);
 	init_grille(fractol);
-	fractol->precision = 100;
+	fractol->precision = 20;
 	fractol->redraw = 1;
 	fractol->h_s = -2.25;
 	fractol->v_s = 1.25;
@@ -76,6 +76,10 @@ int ft_loop_hook(t_fractol *fractol)
 		calc(fractol);
 		fractol->redraw = 0;
 	}
+	if (fractol->keys.k_p)
+		add_precision(fractol);
+	if (fractol->keys.k_m)
+		sub_precision(fractol);
 	if (fractol->keys.k_a_left)
 		move_left(fractol);
 	if (fractol->keys.k_a_right)
@@ -113,18 +117,9 @@ int ft_key_hook(int keycode, t_fractol *fractol)
 int ft_key_release(int keycode, t_fractol *fractol)
 {
 	if (keycode == K_M)
-	{
-		if (fractol->precision > 0)
-			fractol->precision -= 1;
-		fractol->redraw = 1;
 		fractol->keys.k_m = 0;
-	}
 	else if (keycode == K_P)
-	{
-		fractol->precision += 1;
-		fractol->redraw = 1;
 		fractol->keys.k_p = 0;
-	}
 	else if (keycode == K_A_DOWN)
 		fractol->keys.k_a_down = 0;
 	else if (keycode == K_A_LEFT)

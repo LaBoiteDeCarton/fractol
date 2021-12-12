@@ -51,15 +51,62 @@ void reset_ligne(t_case *cases, int size)
 		i++;
 	}
 }
+void sub_precision(t_fractol *fractol)
+{
+	int x;
+	int y;
+
+	y = 0;
+	while (y < fractol->v_size)
+	{
+		x = 0;
+		while (x < fractol->h_size)
+		{
+			if (fractol->grille[y][x].it == fractol->precision)
+				fractol->grille[y][x].it = -1;
+			x++;
+		}
+		y++;
+	}
+	fractol->precision -= 1;
+	fractol->redraw = 1;
+}
+
+void add_precision(t_fractol *fractol)
+{
+	int x;
+	int y;
+	t_complexe c;
+
+	y = 0;
+	while (y < fractol->v_size)
+	{
+		x = 0;
+		while (x < fractol->h_size)
+		{
+			if (fractol->grille[y][x].it == fractol->precision)
+			{
+				set_complexe(&c, fractol->h_s + x * fractol->pat, 
+							fractol->v_s - y * fractol->pat);
+				next_mandelbrot(&fractol->grille[y][x].z, c);
+				if (mod_complexe(fractol->grille[y][x].z) <= 2)
+					fractol->grille[y][x].it += 1;
+			}
+			x++;
+		}
+		y++;
+	}
+	fractol->precision += 1;
+	fractol->redraw = 1;
+}
 
 void move_down(t_fractol *fractol)
 {
 	t_case *save;
 
 	fractol->v_s -= fractol->pat;
-	ft_memmove(fractol->addr, fractol->addr + fractol->line_length, (fractol->v_size - 1) * fractol->line_length);
 	save = fractol->grille[0];
-	ft_memmove(fractol->grille, fractol->grille + 1, sizeof(t_case **) * fractol->v_size - 1);
+	ft_memmove(fractol->grille, fractol->grille + 1, sizeof(t_case **) * (fractol->v_size - 1));
 	fractol->grille[fractol->v_size - 1] = save;
 	reset_ligne(fractol->grille[fractol->v_size - 1], fractol->h_size - 1);
 	fractol->redraw = 1;
@@ -70,9 +117,8 @@ void		move_up(t_fractol *fractol)
 	t_case *save;
 
 	fractol->v_s += fractol->pat;
-	ft_memmove(fractol->addr + fractol->line_length, fractol->addr, (fractol->v_size - 1) * fractol->line_length);
 	save = fractol->grille[fractol->v_size - 1];
-	ft_memmove(fractol->grille + 1, fractol->grille, sizeof(t_case **) * fractol->v_size - 1);
+	ft_memmove(fractol->grille + 1, fractol->grille, sizeof(t_case **) * (fractol->v_size - 1));
 	fractol->grille[0] = save;
 	reset_ligne(fractol->grille[0], fractol->h_size - 1);
 	fractol->redraw = 1;
@@ -84,15 +130,14 @@ void		move_left(t_fractol *fractol)
 	int j;
 
 	fractol->h_s -= fractol->pat;
-	ft_memmove(fractol->addr + 4, fractol->addr, fractol->v_size * fractol->line_length - 4);
 	i = 0;
 	while (i < fractol->v_size)
 	{
-		j = 0;
-		while (j < fractol->h_size - 1)
+		j = fractol->h_size - 1;
+		while (j > 0)
 		{
-			fractol->grille[i][j+1] = fractol->grille[i][j]; 
-			j++;
+			fractol->grille[i][j] = fractol->grille[i][j-1]; 
+			j--;
 		}
 		fractol->grille[i][0].it = -1;
 		i++;
@@ -106,7 +151,6 @@ void		move_right(t_fractol *fractol)
 	int j;
 
 	fractol->h_s += fractol->pat;
-	ft_memmove(fractol->addr, fractol->addr + 4, fractol->v_size * fractol->line_length - 4);
 	i = 0;
 	while (i < fractol->v_size)
 	{
@@ -158,7 +202,33 @@ void zoom_in(t_fractol *fractol, int x, int y)
 	init_grille(fractol);
 }
 
+// void zoom_in(t_fractol *fractol, int x, int y)
+// {
+// 	(void)x;
+// 	int i;
+// 	t_case *save;
 
+// 	i = y - 1;
+// 	while (i > 0)
+// 	{
+// 		save = fractol->grille[0];
+// 		ft_memmove(fractol->grille, fractol->grille + 1, sizeof(t_case **) * i);
+// 		fractol->grille[i] = save;
+// 		reset_ligne(fractol->grille[i], fractol->h_size - 1);
+// 		i -=2;
+// 	}
+// 	i = y + 1;
+// 	while (i < fractol->v_size)
+// 	{
+// 		save = fractol->grille[fractol->v_size - 1];
+// 		ft_memmove(fractol->grille + i + 1, fractol->grille + i, sizeof(t_case *) * (fractol->v_size - 1 - i));
+// 		fractol->grille[i] = save;
+// 		reset_ligne(fractol->grille[i], fractol->h_size - 1);
+// 		i +=2;
+// 	}
+// 	fractol->pat *= 2; // mais pas que
+// 	fractol->redraw = 1;
+// }
 
 void ft_calc_mandelbrot(t_complexe *z, t_complexe c, int *it, int it_max)
 {
@@ -193,20 +263,20 @@ void calc(t_fractol *fractol)
 		{
 			if (fractol->grille[y][x].it == -1)
 			{
-				pixel = (y * fractol->line_length) + (x * 4);
 				set_complexe(&c, fractol->h_s + x * fractol->pat, 
 							fractol->v_s - y * fractol->pat);
 				ft_calc_mandelbrot(&(fractol->grille[y][x].z), c, &(fractol->grille[y][x].it), fractol->precision);
-				color.r = 255 * ((long double)fractol->grille[y][x].it / (long double)fractol->precision);
-				color.g = 255 * ((long double)fractol->grille[y][x].it / (long double)fractol->precision);
-				color.b = 255 * ((long double)fractol->grille[y][x].it / (long double)fractol->precision);
-				color.t = 0;
-				color_f = create_trgb(color);
-				fractol->addr[pixel] = (color_f) & 0xFF;;
-				fractol->addr[pixel + 1] = (color_f >> 8) & 0xFF;
-				fractol->addr[pixel + 2] = (color_f >> 16) & 0xFF;
-				fractol->addr[pixel + 3] = (color_f >> 24);
 			}
+			pixel = (y * fractol->line_length) + (x * 4);
+			color.r = 255 * ((long double)fractol->grille[y][x].it / (long double)fractol->precision);
+			color.g = 255 * ((long double)fractol->grille[y][x].it / (long double)fractol->precision);
+			color.b = 255 * ((long double)fractol->grille[y][x].it / (long double)fractol->precision);
+			color.t = 0;
+			color_f = create_trgb(color);
+			fractol->addr[pixel] = (color_f) & 0xFF;;
+			fractol->addr[pixel + 1] = (color_f >> 8) & 0xFF;
+			fractol->addr[pixel + 2] = (color_f >> 16) & 0xFF;
+			fractol->addr[pixel + 3] = (color_f >> 24);
 			x++;
 		}
 		y++;
@@ -214,67 +284,8 @@ void calc(t_fractol *fractol)
 	mlx_put_image_to_window(fractol->mlx, fractol->win, fractol->img, 0, 0);
 }
 
-// void display(t_fractol *fractol)
-// {
-// 	int y;
-// 	int x;
-// 	int pixel;
-// 	int color_f;
-// 	t_color color;
-
-// 	y = 0;
-// 	while (y < fractol->v_size)
-// 	{
-// 		x = 0;
-// 		while (x < fractol->h_size)
-// 		{
-// 			pixel = (y * fractol->line_length) + (x * 4);
-// 			color.r = 255 * ((long double)fractol->grille[y][x].it / (long double)fractol->precision);
-// 			color.g = 255 * ((long double)fractol->grille[y][x].it / (long double)fractol->precision);
-// 			color.b = 255 * ((long double)fractol->grille[y][x].it / (long double)fractol->precision);
-// 			color.t = 0;
-// 			color_f = create_trgb(color);
-// 			fractol->addr[pixel] = (color_f) & 0xFF;;
-// 			fractol->addr[pixel + 1] = (color_f >> 8) & 0xFF;
-// 			fractol->addr[pixel + 2] = (color_f >> 16) & 0xFF;
-// 			fractol->addr[pixel + 3] = (color_f >> 24);
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// 	mlx_put_image_to_window(fractol->mlx, fractol->win, fractol->img, 0, 0);
-// }
-
-			// fractol->addr[pixel] = (color) & 0xFF;;
-			// fractol->addr[pixel + 1] = (color >> 8) & 0xFF;
-			// fractol->addr[pixel + 2] = (color >> 16) & 0xFF;
-			// fractol->addr[pixel + 3] = (color >> 24);
-
 void next_mandelbrot(t_complexe *prec, t_complexe c)
 {
 	sq_complexe(prec);
 	add_complexe(prec, *prec, c);
-}
-
-void my_put_color_pixel()
-{
-	
-}
-
-int		calc_mandelbrot(t_complexe c, int it)
-{
-	int 		i;
-	t_complexe	z;
-
-
-	set_complexe(&z, 0, 0);
-	i = 0;
-	while (i < it)
-	{
-		if (mod_complexe(z) > 2)
-			break;
-		next_mandelbrot(&z, c);
-		i++;
-	}
-	return (i);
 }

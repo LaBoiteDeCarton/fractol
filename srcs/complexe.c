@@ -5,6 +5,11 @@ void add_complexe(t_complexe *z, t_complexe z1, t_complexe z2)
 	set_complexe(z, z1.r + z2.r, z1.i + z2.i);
 }
 
+void sub_complexe(t_complexe *z, t_complexe z1, t_complexe z2)
+{
+	set_complexe(z, z1.r - z2.r, z1.i - z2.i);
+}
+
 void sq_complexe(t_complexe *z)
 {
 	set_complexe(z, (z->r * z->r) - (z->i * z->i), z->i * z->r * 2);
