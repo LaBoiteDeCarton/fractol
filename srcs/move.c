@@ -8,8 +8,8 @@ void move_down(t_fractol *fractol)
 	save = fractol->grille[0];
 	ft_memmove(fractol->grille, fractol->grille + 1, sizeof(t_case **) * (fractol->v_size - 1));
 	fractol->grille[fractol->v_size - 1] = save;
-	reset_ligne(fractol->grille[fractol->v_size - 1], fractol->h_size - 1);
-	fractol->redraw = 1;
+	reset_ligne(fractol->grille[fractol->v_size - 1], fractol->h_size);
+	fractol->rw = 1;
 }
 
 void		move_up(t_fractol *fractol, int y)
@@ -30,10 +30,10 @@ void		move_up(t_fractol *fractol, int y)
 	while (i < y)
 	{
 		fractol->grille[i] = save[y - 1 - i];
-		reset_ligne(fractol->grille[i], fractol->h_size - 1);
+		reset_ligne(fractol->grille[i], fractol->h_size);
 		i++;
 	}
-	fractol->redraw = 1;
+	fractol->rw = 1;
 }
 
 void		move_left(t_fractol *fractol, int speed)
@@ -58,7 +58,7 @@ void		move_left(t_fractol *fractol, int speed)
 		}
 		i++;
 	}
-	fractol->redraw = 1;
+	fractol->rw = 1;
 }
 
 void		move_right(t_fractol *fractol)
@@ -79,5 +79,5 @@ void		move_right(t_fractol *fractol)
 		fractol->grille[i][fractol->h_size - 1].it = -1;
 		i++;
 	}
-	fractol->redraw = 1;
+	fractol->rw = 1;
 }

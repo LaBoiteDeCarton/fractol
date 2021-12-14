@@ -76,7 +76,9 @@ struct s_fractol
 	t_fract_type	fract_type;
 	t_key_stat		keys;
 	t_case			**grille;
-	int				redraw;
+	int				rw; //redraw
+	int				rw_sc; //redraw scale
+	int				pixel;
 	void*			mlx;
 	void			*win;
 	void			*img;
@@ -104,6 +106,7 @@ void 		handle_error(char *err);
 
 //Fractale calc and display functions
 void 		display(t_fractol *fractale);
+void 		reset_ligne(t_case *cases, int size);
 void 		ft_mandelbrot(t_complexe *z, t_complexe z2);
 int			calc_mandelbrot(t_complexe c, int it);
 void		move_down(t_fractol *fractol);

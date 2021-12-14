@@ -42,7 +42,8 @@ static void put_default_arg(t_fractol *fractol)
 	malloc_grille(fractol);
 	init_grille(fractol);
 	fractol->precision = 20;
-	fractol->redraw = 1;
+	fractol->rw = 1;
+	fractol->rw_sc = 1;
 	fractol->h_s = -2.25;
 	fractol->v_s = 1.25;
 	init_keys(fractol);

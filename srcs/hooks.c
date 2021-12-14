@@ -7,11 +7,8 @@ int ft_loop_hook(t_fractol *fractol)
 	speed = 1;
 	if (fractol->keys.k_shift || fractol->keys.k_shift2)
 		speed = 10;
-	if (fractol->redraw)
-	{
+	if (fractol->rw)
 		calc(fractol);
-		fractol->redraw = 0;
-	}
 	if (fractol->keys.k_p)
 		add_precision(fractol);
 	if (fractol->keys.k_m)
