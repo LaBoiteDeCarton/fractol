@@ -22,6 +22,8 @@
 # define K_A_RIGHT 124
 # define K_P 35
 # define K_M 41
+# define K_SHIFT 258
+# define K_SHIFT2 257
 
 typedef struct s_fractol		t_fractol;
 typedef struct s_complexe 		t_complexe;
@@ -65,6 +67,8 @@ struct s_key_stat
 	int k_leftclick;
 	int k_p;
 	int k_m;
+	int k_shift;
+	int k_shift2;
 };
 
 struct s_fractol
@@ -103,8 +107,8 @@ void 		display(t_fractol *fractale);
 void 		ft_mandelbrot(t_complexe *z, t_complexe z2);
 int			calc_mandelbrot(t_complexe c, int it);
 void		move_down(t_fractol *fractol);
-void		move_up(t_fractol *fractol);
-void		move_left(t_fractol *fractol);
+void		move_up(t_fractol *fractol, int y);
+void		move_left(t_fractol *fractol, int speed);
 void		move_right(t_fractol *fractol);
 void		zoom_out(t_fractol *fractol, int x, int y);
 void		zoom_in(t_fractol *fractol, int x, int y);
@@ -115,5 +119,11 @@ void		init_grille(t_fractol *fractol);
 void		add_precision(t_fractol *fractol);
 void		sub_precision(t_fractol *fractol);
 
+//hooks functions
+
+int ft_loop_hook(t_fractol *fractol);
+int ft_key_hook(int keycode, t_fractol *fractol);
+int ft_key_release(int keycode, t_fractol *fractol);
+int ft_mouse_hook(int button, int x, int y, t_fractol *fractol);
 
 #endif
