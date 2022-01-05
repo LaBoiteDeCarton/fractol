@@ -127,24 +127,27 @@ void	zoom_in(t_fractol *fractol, int x, int y)
 {
 	t_case *save;
 	int i;
-	//int j;
+	int j;
 
 	i = 0;
-	while (i < fractol->v_size - 1)
+	while (i < fractol->v_size)
 	{
 		if (i % 2 == 1)
 			reset_ligne(fractol->grille[i], fractol->h_size);
-		else if (i <= y)
+		else if (i < fractol->v_size)
 		{
 			save = fractol->grille[i];
-			fractol->grille[i] = fractol->grille[y / 2 + (i / 2)];
+			fractol->grille[i] = fractol->grille[(y + i) / 2];
 			fractol->grille[y / 2 + (i / 2)] = save;
-		}
-		else 
-		{
-			save = fractol->grille[i];
-			fractol->grille[i] = fractol->grille[((y + fractol->v_size - 1) / 2) - (i / 2)];
-			fractol->grille[((y + fractol->v_size - 1) / 2) - (i / 2)] = save;
+			j = 0;
+			while (j < fractol->h_size)
+			{
+				if (j % 2 == 1)
+					fractol->grille[i][j].it = -1;
+				else
+					fractol->grille[i][j] = fractol->grille[i][(x + j) / 2];
+				j++;
+			}
 		}
 		i++;
 	}

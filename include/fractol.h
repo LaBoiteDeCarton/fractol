@@ -15,13 +15,17 @@
 
 # define H_MEDIUM_SIZE 720
 # define V_MEDIUM_SIZE 480
+# define H_LARGE_SIZE 1080
+# define V_LARGE_SIZE 720
 
 # define K_A_DOWN 125
 # define K_A_UP	126
 # define K_A_LEFT 123
 # define K_A_RIGHT 124
+# define K_I 34
 # define K_P 35
 # define K_M 41
+# define K_A 12
 # define K_SHIFT 258
 # define K_SHIFT2 257
 
@@ -67,6 +71,7 @@ struct s_key_stat
 	int k_leftclick;
 	int k_p;
 	int k_m;
+	int k_i;
 	int k_shift;
 	int k_shift2;
 };
@@ -76,8 +81,12 @@ struct s_fractol
 	t_fract_type	fract_type;
 	t_key_stat		keys;
 	t_case			**grille;
+	t_complexe		c;
+	int				m_x;
+	int				m_y;
 	int				rw; //redraw
-	int				rw_sc; //redraw scale
+	int				rwa;
+	int				rw_sc; //redraw scale.. not used anymore
 	int				pixel;
 	void*			mlx;
 	void			*win;
@@ -99,6 +108,7 @@ void		add_complexe(t_complexe *z1, t_complexe z2, t_complexe z3);
 void		sub_complexe(t_complexe *z, t_complexe z1, t_complexe z2);
 void		sq_complexe(t_complexe *z);
 void		set_complexe(t_complexe *z, long double reel, long double img);
+long double mod_sq_complexe(t_complexe z);
 long double	mod_complexe(t_complexe z);
 
 //Error handler
@@ -109,7 +119,7 @@ void 		display(t_fractol *fractale);
 void 		reset_ligne(t_case *cases, int size);
 void 		ft_mandelbrot(t_complexe *z, t_complexe z2);
 int			calc_mandelbrot(t_complexe c, int it);
-void		move_down(t_fractol *fractol);
+void		move_down(t_fractol *fractol, int y);
 void		move_up(t_fractol *fractol, int y);
 void		move_left(t_fractol *fractol, int speed);
 void		move_right(t_fractol *fractol);
@@ -121,6 +131,7 @@ void		next_mandelbrot(t_complexe *prec, t_complexe c);
 void		init_grille(t_fractol *fractol);
 void		add_precision(t_fractol *fractol);
 void		sub_precision(t_fractol *fractol);
+void		print_info(t_fractol *fractol);
 
 //hooks functions
 

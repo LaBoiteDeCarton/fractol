@@ -37,12 +37,15 @@ void malloc_grille(t_fractol *fractol)
 static void put_default_arg(t_fractol *fractol)
 {
 	
-	fractol->h_size = H_MEDIUM_SIZE;
-	fractol->v_size = V_MEDIUM_SIZE;
+	fractol->h_size = H_LARGE_SIZE;
+	fractol->v_size = V_LARGE_SIZE;
 	malloc_grille(fractol);
 	init_grille(fractol);
 	fractol->precision = 20;
+	fractol->m_x = 1000;
+	fractol->m_y = 500;
 	fractol->rw = 1;
+	fractol->rwa = 0;
 	fractol->rw_sc = 1;
 	fractol->h_s = -2.25;
 	fractol->v_s = 1.25;

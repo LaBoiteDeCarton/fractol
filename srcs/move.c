@@ -1,14 +1,26 @@
 #include "fractol.h"
 
-void move_down(t_fractol *fractol)
+void move_down(t_fractol *fractol, int y)
 {
-	t_case *save;
+	int i;
+	t_case **save;
 
-	fractol->v_s -= fractol->pat;
-	save = fractol->grille[0];
-	ft_memmove(fractol->grille, fractol->grille + 1, sizeof(t_case **) * (fractol->v_size - 1));
-	fractol->grille[fractol->v_size - 1] = save;
-	reset_ligne(fractol->grille[fractol->v_size - 1], fractol->h_size);
+	save = (t_case **)malloc(sizeof(t_case *) * y);
+	fractol->v_s -= fractol->pat * y;
+	i = 0;
+	while (i < y)
+	{
+		save[i] = fractol->grille[i];
+		i++;
+	}
+	ft_memmove(fractol->grille, fractol->grille + y, sizeof(t_case **) * (fractol->v_size - y));
+	i = 0;
+	while (i < y)
+	{
+		fractol->grille[fractol->v_size - 1 - i] = save[i];
+		reset_ligne(fractol->grille[fractol->v_size - 1 - i], fractol->h_size);
+		i++;
+	}
 	fractol->rw = 1;
 }
 

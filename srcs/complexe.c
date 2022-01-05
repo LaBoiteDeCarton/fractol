@@ -21,9 +21,14 @@ void set_complexe(t_complexe *z, long double r, long double i)
 	z->i = i;
 }
 
+long double mod_sq_complexe(t_complexe z)
+{
+	return (powl(z.r, 2.0) + powl(z.i, 2.0));
+}
+
 long double mod_complexe(t_complexe z)
 {
-	return (sqrtl(powl(z.r, 2.0) + powl(z.i, 2.0)));
+	return (sqrtl(mod_sq_complexe(z)));
 }
 
 void ft_print_complexe(t_complexe z)

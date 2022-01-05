@@ -1,5 +1,17 @@
 #include "fractol.h"
 
+void check_mouse_change(t_fractol *fractol)
+{
+	int x;
+	int y;
+
+	mlx_mouse_get_pos(fractol->win, &x, &y);
+	if (fractol->m_x != x || fractol->m_y != y)
+		fractol->rwa = 1;
+	fractol->m_x = x;
+	fractol->m_y = y;
+}
+
 int ft_loop_hook(t_fractol *fractol)
 {
 	int speed;
@@ -7,7 +19,7 @@ int ft_loop_hook(t_fractol *fractol)
 	speed = 1;
 	if (fractol->keys.k_shift || fractol->keys.k_shift2)
 		speed = 10;
-	if (fractol->rw)
+	if (fractol->rw || fractol->rwa)
 		calc(fractol);
 	if (fractol->keys.k_p)
 		add_precision(fractol);
@@ -20,7 +32,8 @@ int ft_loop_hook(t_fractol *fractol)
 	if (fractol->keys.k_a_up)
 		move_up(fractol, speed);
 	if (fractol->keys.k_a_down)
-		move_down(fractol);
+		move_down(fractol, speed);
+	check_mouse_change(fractol);
 	return (0);
 }
 
@@ -69,6 +82,10 @@ int ft_key_release(int keycode, t_fractol *fractol)
 		fractol->keys.k_shift = 0;
 	else if (keycode == K_SHIFT2)
 		fractol->keys.k_shift2 = 0;
+	else if (keycode == K_A)
+		zoom_in(fractol, fractol->h_size / 2, fractol->v_size / 2);
+	else if (keycode == K_I)
+		print_info(fractol);
 	return (0);
 }
 
@@ -78,6 +95,7 @@ int ft_mouse_hook(int button, int x, int y, t_fractol *fractol)
 		zoom_out(fractol, x, y);
 	if (button == 5)
 		zoom_in(fractol, x, y);
+	printf("position : (%d,%d)", x, y);
 	printf("%d\n", button);
 	return (0);
 }
