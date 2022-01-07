@@ -1,5 +1,4 @@
 #include "fractol.h"
-#define min(a,b) (a<=b?a:b)
 
 int	create_trgb(t_color color)
 {
@@ -156,9 +155,17 @@ void add_precision(t_fractol *fractol)
 
 void next_wtf(t_complexe *prec, t_complexe c)
 {
+	t_complexe tmp;
+	t_complexe feigenbaum;
+
+	feigenbaum.r = -1.401155;
+	feigenbaum.i = 0;
+	tmp = c;
+	sq_complexe(&c);
+	mult_complexe(&c, c, tmp);
 	sq_complexe(prec);
 	add_complexe(prec, *prec, c);
-	sq_complexe(prec);
+	add_complexe(prec, *prec, feigenbaum);
 }
 
 void ft_calc_wtf(t_complexe *z, t_complexe c, int *it, int it_max)
@@ -168,7 +175,7 @@ void ft_calc_wtf(t_complexe *z, t_complexe c, int *it, int it_max)
 	i = 0;
 	while (i < it_max)
 	{
-		if (mod_sq_complexe(*z) > 200)
+		if (mod_sq_complexe(*z) > 25)
 			break;
 		next_wtf(z, c);
 		i++;
@@ -194,9 +201,7 @@ void calc_z_it_value(t_complexe *z, int *it, t_fractol* fractol)
 	}
 	if (fractol->fract_type == wtf)
 	{
-		*z = fractol->c;
-		set_complexe(&c, fractol->h_s + fractol->m_x * fractol->pat,
-					fractol->v_s - fractol->m_y * fractol->pat);
+		set_complexe(z, 0, 0);
 		ft_calc_wtf(z, c, it, fractol->precision);
 	}
 }
@@ -228,11 +233,10 @@ void calc(t_fractol *fractol)
 		x = 0;
 		while (x < fractol->h_size)
 		{
-			if (fractol->grille[y][x].it == -1 || fractol->fract_type == julia || fractol->fract_type == wtf)
+			if (fractol->grille[y][x].it == -1 || fractol->rwa)
 			{
 				set_complexe(&(fractol->c), fractol->h_s + x * fractol->pat, 
 					fractol->v_s - y * fractol->pat);
-				//ft_calc_mandelbrot(&(fractol->grille[y][x].z), c, &(fractol->grille[y][x].it), fractol->precision);
 				calc_z_it_value(&(fractol->grille[y][x].z), &(fractol->grille[y][x].it), fractol);
 			}
 			fractol->pixel = (y * fractol->line_length) + (x * 4);
