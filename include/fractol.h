@@ -92,6 +92,7 @@ struct s_fractol
 	t_case			**grille;
 	t_complexe		c;
 	t_col			col;
+	int				active_mouse;
 	int				m_x;
 	int				m_y;
 	int				rw; //redraw
@@ -116,6 +117,7 @@ struct s_fractol
 void		add_complexe(t_complexe *z1, t_complexe z2, t_complexe z3);
 void		sub_complexe(t_complexe *z, t_complexe z1, t_complexe z2);
 void		sq_complexe(t_complexe *z);
+void		mult_complexe(t_complexe *z, t_complexe z1, t_complexe z2);
 void		set_complexe(t_complexe *z, long double reel, long double img);
 long double mod_sq_complexe(t_complexe z);
 long double	mod_complexe(t_complexe z);
