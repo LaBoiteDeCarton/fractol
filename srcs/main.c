@@ -40,7 +40,7 @@ static void put_default_arg(t_fractol *fractol)
 	fractol->v_size = V_LARGE_SIZE;
 	malloc_grille(fractol);
 	init_grille(fractol);
-	fractol->precision = 20;
+	fractol->precision = 30;
 	fractol->active_mouse = 0;
 	if (fractol->fract_type == julia)
 		fractol->active_mouse = 1;
@@ -50,11 +50,18 @@ static void put_default_arg(t_fractol *fractol)
 	fractol->rwa = 0;
 	fractol->h_s = -2.25;
 	fractol->v_s = 1.25;
-	put_trgb_color(&(fractol->col.in), 0);
-	put_trgb_color(&(fractol->col.out_from), 255);
-	put_trgb_color(&(fractol->col.out_to), 16777215);
+	t_color *first;
+	first = malloc(sizeof(t_color));
+	first->r = 255;
+	first->g = 255;
+	first->b = 255;
+	first->t = 0;
+	fractol->col.palette = ft_lstnew(first);
+	fractol->col.count = 1;
 	init_keys(fractol);
 	fractol->pat = 2.75 / fractol->v_size;	
+	set_complexe(&fractol->mouse_c, fractol->h_s + fractol->m_x * fractol->pat,
+					fractol->v_s - fractol->m_y * fractol->pat);
 }
 
 static void init_first_arg(char *str, t_fractol *fractol)

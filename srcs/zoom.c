@@ -6,7 +6,7 @@ void zoom_out(t_fractol *fractol, int x, int y)
 	long double new_pat;
 	long double largeur_extrait;
 
-	new_pat = fractol->pat * 2;
+	new_pat = fractol->pat * 1.8;
 	largeur_extrait = (new_pat - fractol->pat) * fractol->h_size;
 	perc = (long double)x / fractol->h_size;
 	fractol->h_s -= perc * largeur_extrait;
@@ -24,7 +24,7 @@ void zoom_in(t_fractol *fractol, int x, int y)
 	long double new_pat;
 	long double largeur_extrait;
 
-	new_pat = fractol->pat / 2;
+	new_pat = fractol->pat / 1.8;
 	largeur_extrait = (fractol->pat - new_pat) * fractol->h_size;
 	perc = (long double)x / fractol->h_size;
 	fractol->h_s += perc * largeur_extrait;

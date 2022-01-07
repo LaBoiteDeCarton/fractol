@@ -46,9 +46,8 @@ struct s_color
 
 struct s_col
 {
-	t_color in;
-	t_color out_from;
-	t_color out_to;
+	t_list	*palette;
+	int		count;
 };
 
 struct s_complexe
@@ -91,6 +90,7 @@ struct s_fractol
 	t_key_stat		keys;
 	t_case			**grille;
 	t_complexe		c;
+	t_complexe		mouse_c;
 	t_col			col;
 	int				active_mouse;
 	int				m_x;
@@ -147,6 +147,7 @@ int			create_trgb(t_color color);
 void		change_color_aleatoire(t_fractol *fractol, t_color *col);
 void		put_trgb_color(t_color *color, int trgb);
 void		swap_color(t_fractol *fractol);
+void		add_color(t_fractol *fractol);
 
 //hooks functions
 

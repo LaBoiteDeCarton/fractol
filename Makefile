@@ -10,7 +10,7 @@ SRCS_FILES = main.c \
 				zoom.c
 SRCS = $(addprefix ${S_DIR}/, ${SRCS_FILES})
 OBJS = ${SRCS:.c=.o}
-FLAGS = -Wall -Wextra -Werror -I${H_DIR}
+FLAGS = -Wall -Wextra -Werror -I ${H_DIR}
 MLX = lib/minilibx_opengl
 LFT = lib/libft
 LIBFLAGS = -Llib/libft -lft -Llib/minilibx_opengl -lmlx -framework OpenGL -framework AppKit
