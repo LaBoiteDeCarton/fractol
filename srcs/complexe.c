@@ -15,6 +15,11 @@ void sq_complexe(t_complexe *z)
 	set_complexe(z, (z->r * z->r) - (z->i * z->i), z->i * z->r * 2);
 }
 
+void mult_complexe(t_complexe *z, t_complexe z1, t_complexe z2)
+{
+	set_complexe(z, z1.r * z2.r - z1.i * z2.i, z1.r * z2.i + z1.i * z2.r);
+}
+
 void set_complexe(t_complexe *z, long double r, long double i)
 {
 	z->r = r;
