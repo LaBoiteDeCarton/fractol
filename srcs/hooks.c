@@ -86,6 +86,14 @@ int ft_key_release(int keycode, t_fractol *fractol)
 		zoom_in(fractol, fractol->h_size / 2, fractol->v_size / 2);
 	else if (keycode == K_I)
 		print_info(fractol);
+	else if (keycode == 18)
+		change_color_aleatoire(fractol, &(fractol->col.in));
+	else if (keycode == 19)
+		change_color_aleatoire(fractol, &(fractol->col.out_from));
+	else if (keycode == 20)
+		change_color_aleatoire(fractol, &(fractol->col.out_to));
+	else if (keycode == 21)
+		swap_color(fractol);
 	return (0);
 }
 

@@ -36,7 +36,6 @@ void malloc_grille(t_fractol *fractol)
 
 static void put_default_arg(t_fractol *fractol)
 {
-	
 	fractol->h_size = H_LARGE_SIZE;
 	fractol->v_size = V_LARGE_SIZE;
 	malloc_grille(fractol);
@@ -46,9 +45,11 @@ static void put_default_arg(t_fractol *fractol)
 	fractol->m_y = 500;
 	fractol->rw = 1;
 	fractol->rwa = 0;
-	fractol->rw_sc = 1;
 	fractol->h_s = -2.25;
 	fractol->v_s = 1.25;
+	put_trgb_color(&(fractol->col.in), 0);
+	put_trgb_color(&(fractol->col.out_from), 255);
+	put_trgb_color(&(fractol->col.out_to), 16777215);
 	init_keys(fractol);
 	fractol->pat = 2.75 / fractol->v_size;	
 }
@@ -59,6 +60,8 @@ static void init_first_arg(char *str, t_fractol *fractol)
 		fractol->fract_type = mandelbrot;
 	else if (!ft_strncmp(str, "julia", 5))
 		fractol->fract_type = julia;
+	else if (!ft_strncmp(str, "wtf", 3))
+		fractol->fract_type = wtf;
 	else
 		handle_error(ERR_FRACTTYPE);
 }

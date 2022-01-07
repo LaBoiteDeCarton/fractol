@@ -18,23 +18,23 @@ void zoom_out(t_fractol *fractol, int x, int y)
 	init_grille(fractol);
 }
 
-// void zoom_in(t_fractol *fractol, int x, int y)
-// {
-// 	long double perc;
-// 	long double new_pat;
-// 	long double largeur_extrait;
+void zoom_in(t_fractol *fractol, int x, int y)
+{
+	long double perc;
+	long double new_pat;
+	long double largeur_extrait;
 
-// 	new_pat = fractol->pat / 1.1;
-// 	largeur_extrait = (fractol->pat - new_pat) * fractol->h_size;
-// 	perc = (long double)x / fractol->h_size;
-// 	fractol->h_s += perc * largeur_extrait;
-// 	largeur_extrait = (fractol->pat - new_pat) * fractol->v_size;
-// 	perc = (long double)y / fractol->v_size;
-// 	fractol->v_s -= perc * largeur_extrait;
-// 	fractol->pat = new_pat;
-// 	fractol->redraw = 1;
-// 	init_grille(fractol);
-// }
+	new_pat = fractol->pat / 2;
+	largeur_extrait = (fractol->pat - new_pat) * fractol->h_size;
+	perc = (long double)x / fractol->h_size;
+	fractol->h_s += perc * largeur_extrait;
+	largeur_extrait = (fractol->pat - new_pat) * fractol->v_size;
+	perc = (long double)y / fractol->v_size;
+	fractol->v_s -= perc * largeur_extrait;
+	fractol->pat = new_pat;
+	fractol->rw = 1;
+	init_grille(fractol);
+}
 
 // void zoom_in(t_fractol *fractol, int x, int y)
 // {
@@ -123,37 +123,36 @@ void zoom_out(t_fractol *fractol, int x, int y)
 // 	fractol->rw = 1;
 // }
 
-void	zoom_in(t_fractol *fractol, int x, int y)
-{
-	t_case *save;
-	int i;
-	int j;
+// void	zoom_in(t_fractol *fractol, int x, int y)
+// {
+// 	t_case *save;
+// 	int i;
+// 	int j;
 
-	i = 0;
-	while (i < fractol->v_size)
-	{
-		if (i % 2 == 1)
-			reset_ligne(fractol->grille[i], fractol->h_size);
-		else if (i < fractol->v_size)
-		{
-			save = fractol->grille[i];
-			fractol->grille[i] = fractol->grille[(y + i) / 2];
-			fractol->grille[y / 2 + (i / 2)] = save;
-			j = 0;
-			while (j < fractol->h_size)
-			{
-				if (j % 2 == 1)
-					fractol->grille[i][j].it = -1;
-				else
-					fractol->grille[i][j] = fractol->grille[i][(x + j) / 2];
-				j++;
-			}
-		}
-		i++;
-	}
-	fractol->v_s -= fractol->pat * (y / 2);
-	fractol->h_s += fractol->pat * (x / 2);
-	fractol->pat /= 2;
-	fractol->rw_sc = 4;
-	fractol->rw = 1;
-}
+// 	i = 0;
+// 	while (i < fractol->v_size)
+// 	{
+// 		if (i % 2 == 1)
+// 			reset_ligne(fractol->grille[i], fractol->h_size);
+// 		else if (i < fractol->v_size)
+// 		{
+// 			save = fractol->grille[i];
+// 			fractol->grille[i] = fractol->grille[(y + i) / 2];
+// 			fractol->grille[y / 2 + (i / 2)] = save;
+// 			j = 0;
+// 			while (j < fractol->h_size)
+// 			{
+// 				if (j % 2 == 1)
+// 					fractol->grille[i][j].it = -1;
+// 				else
+// 					fractol->grille[i][j] = fractol->grille[i][(x + j) / 2];
+// 				j++;
+// 			}
+// 		}
+// 		i++;
+// 	}
+// 	fractol->v_s -= fractol->pat * (y / 2);
+// 	fractol->h_s += fractol->pat * (x / 2);
+// 	fractol->pat /= 2;
+// 	fractol->rw = 1;
+// }

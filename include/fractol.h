@@ -32,6 +32,7 @@
 typedef struct s_fractol		t_fractol;
 typedef struct s_complexe 		t_complexe;
 typedef struct s_key_stat		t_key_stat;
+typedef struct s_col			t_col;
 typedef struct s_color			t_color;
 typedef struct s_case			t_case;
 
@@ -41,6 +42,13 @@ struct s_color
 	int r;
 	int g;
 	int b;
+};
+
+struct s_col
+{
+	t_color in;
+	t_color out_from;
+	t_color out_to;
 };
 
 struct s_complexe
@@ -59,6 +67,7 @@ typedef enum s_fract_type
 {
 	mandelbrot,
 	julia,
+	wtf
 } t_fract_type;
 
 struct s_key_stat
@@ -82,11 +91,11 @@ struct s_fractol
 	t_key_stat		keys;
 	t_case			**grille;
 	t_complexe		c;
+	t_col			col;
 	int				m_x;
 	int				m_y;
 	int				rw; //redraw
 	int				rwa;
-	int				rw_sc; //redraw scale.. not used anymore
 	int				pixel;
 	void*			mlx;
 	void			*win;
@@ -132,6 +141,10 @@ void		init_grille(t_fractol *fractol);
 void		add_precision(t_fractol *fractol);
 void		sub_precision(t_fractol *fractol);
 void		print_info(t_fractol *fractol);
+int			create_trgb(t_color color);
+void		change_color_aleatoire(t_fractol *fractol, t_color *col);
+void		put_trgb_color(t_color *color, int trgb);
+void		swap_color(t_fractol *fractol);
 
 //hooks functions
 
