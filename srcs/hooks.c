@@ -6,7 +6,7 @@ void check_mouse_change(t_fractol *fractol)
 	int y;
 
 	mlx_mouse_get_pos(fractol->win, &x, &y);
-	if (fractol->m_x != x || fractol->m_y != y)
+	if (fractol->active_mouse && (fractol->m_x != x || fractol->m_y != y))
 		fractol->rwa = 1;
 	fractol->m_x = x;
 	fractol->m_y = y;
