@@ -122,7 +122,6 @@ void zoom_in(t_fractol *fractol, int x, int y)
 // 	fractol->rw_sc = 4;
 // 	fractol->rw = 1;
 // }
-
 // void	zoom_in(t_fractol *fractol, int x, int y)
 // {
 // 	t_case *save;
