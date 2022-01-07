@@ -41,6 +41,9 @@ static void put_default_arg(t_fractol *fractol)
 	malloc_grille(fractol);
 	init_grille(fractol);
 	fractol->precision = 20;
+	fractol->active_mouse = 0;
+	if (fractol->fract_type == julia)
+		fractol->active_mouse = 1;
 	fractol->m_x = 1000;
 	fractol->m_y = 500;
 	fractol->rw = 1;
