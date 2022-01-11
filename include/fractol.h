@@ -109,6 +109,7 @@ struct s_fractol
 	t_col			col;
 	t_list			**col_mod;
 	t_col_set_type	color_set;
+	int				blue;
 	int				col_panel_active;
 	int				active_mouse;
 	int				m_x;
@@ -170,6 +171,8 @@ void		active_color_panel(t_fractol *fractol);
 void		panel_next(t_fractol *fractol);
 void		create_panel(t_fractol *fractol);
 void		switch_color(t_fractol *fractol);
+void		blue_down(t_fractol *fractol);
+void		blue_up(t_fractol *fractol);
 
 //hooks functions
 

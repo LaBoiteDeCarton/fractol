@@ -1,5 +1,18 @@
 #include "fractol.h"
 
+void blue_down(t_fractol *fractol)
+{
+	if (fractol->blue > 0)
+		fractol->blue -= 1;
+}
+
+void blue_up(t_fractol *fractol)
+{
+	if (fractol->blue < 255)
+		fractol->blue += 1;
+}
+
+
 static void	create_white_panel(t_fractol *fractol)
 {
 	t_color *first;

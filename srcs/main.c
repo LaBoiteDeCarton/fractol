@@ -51,6 +51,7 @@ static void put_default_arg(t_fractol *fractol)
 	fractol->h_s = -2.25;
 	fractol->v_s = 1.25;
 	fractol->color_set = white;
+	fractol->blue = 0;
 	create_panel(fractol);
 	fractol->col_panel_active = 0;
 	init_keys(fractol);

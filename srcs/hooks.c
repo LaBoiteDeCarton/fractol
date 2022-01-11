@@ -16,7 +16,7 @@ void check_mouse_change(t_fractol *fractol)
 	{
 		((t_color *)(*(fractol->col_mod))->content)->r = x * 255 / fractol->h_size;
 		((t_color *)(*(fractol->col_mod))->content)->g = y * 255 / fractol->v_size;
-		((t_color *)(*(fractol->col_mod))->content)->b = 0;
+		((t_color *)(*(fractol->col_mod))->content)->b = fractol->blue;
 		((t_color *)(*(fractol->col_mod))->content)->t = 0;
 		fractol->rw = 1;
 	}
@@ -118,8 +118,12 @@ int ft_mouse_hook(int button, int x, int y, t_fractol *fractol)
 		fractol->active_mouse = (fractol->active_mouse + 1) % 2;
 	if (button == 4 && fractol->col_panel_active == 0)
 		zoom_out(fractol, x, y);
+	else if (button == 4)
+		blue_down(fractol);
 	if (button == 5 && fractol->col_panel_active == 0)
 		zoom_in(fractol, x, y);
+	else if (button == 5)
+		blue_up(fractol);
 	printf("position : (%d,%d)", x, y);
 	printf("%d\n", button);
 	return (0);
