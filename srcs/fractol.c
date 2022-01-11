@@ -10,6 +10,8 @@ void blue_up(t_fractol *fractol)
 {
 	if (fractol->blue < 255)
 		fractol->blue += 1;
+	else
+		fractol->blue += 0;
 }
 
 
