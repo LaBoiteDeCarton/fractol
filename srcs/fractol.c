@@ -1,5 +1,102 @@
 #include "fractol.h"
 
+static void	create_white_panel(t_fractol *fractol)
+{
+	t_color *first;
+
+	// if (fractol->col.palette)
+	// 	ft_lstclear(&(fractol->col.palette), free);
+	first = malloc(sizeof(t_color));
+	first->r = 255;
+	first->g = 255;
+	first->b = 255;
+	first->t = 0;
+	fractol->col.palette = ft_lstnew(first);
+	fractol->col.count = 1;
+}
+
+static void	create_wtob_panel(t_fractol *fractol)
+{
+	t_color *first;
+	t_color *second;
+
+	// if (fractol->col.palette)
+	// 	ft_lstclear(&(fractol->col.palette), free);
+	first = malloc(sizeof(t_color));
+	second = malloc(sizeof(t_color));
+	first->r = 255;
+	first->g = 255;
+	first->b = 255;
+	first->t = 0;
+	second->r = 0;
+	second->g = 0;
+	second->b = 0;
+	second->t = 0;
+	fractol->col.palette = ft_lstnew(first);
+	ft_lstadd_back(&(fractol->col.palette), ft_lstnew(second));
+	fractol->col.count = 2;
+}
+
+static void	create_btow_panel(t_fractol *fractol)
+{
+	t_color *first;
+	t_color *second;
+
+	// if (fractol->col.palette)
+	// 	ft_lstclear(&(fractol->col.palette), free);
+	first = malloc(sizeof(t_color));
+	second = malloc(sizeof(t_color));
+	first->r = 255;
+	first->g = 255;
+	first->b = 255;
+	first->t = 0;
+	second->r = 0;
+	second->g = 0;
+	second->b = 0;
+	second->t = 0;
+	fractol->col.palette = ft_lstnew(second);
+	ft_lstadd_back(&(fractol->col.palette), ft_lstnew(first));
+	fractol->col.count = 2;
+}
+
+void	create_panel(t_fractol *fractol)
+{
+	if (fractol->color_set == white)
+		create_white_panel(fractol);
+	if (fractol->color_set == white_to_black)
+		create_wtob_panel(fractol);
+	if (fractol->color_set == black_to_white)
+		create_btow_panel(fractol);
+}
+
+void switch_color(t_fractol *fractol)
+{
+	if (fractol->color_set == white)
+		fractol->color_set = white_to_black;
+	else if (fractol->color_set == white_to_black)
+		fractol->color_set = black_to_white;
+	else if (fractol->color_set == black_to_white)
+		fractol->color_set = white;
+}
+
+void active_color_panel(t_fractol *fractol)
+{
+	if (fractol->col_panel_active == 1)
+		fractol->col_panel_active = 0;
+	else
+	{
+		fractol->col_panel_active = 1;
+		fractol->active_mouse = 0;
+		fractol->col_mod = &(fractol->col.palette);
+	}
+}
+
+void	panel_next(t_fractol *fractol)
+{
+	if ((*(fractol->col_mod))->next)
+		fractol->col_mod = &((*(fractol->col_mod))->next);
+}
+
 int	create_trgb(t_color color)
 {
 	return (color.t << 24  | color.r << 16 | color.g << 8 | color.b);
@@ -18,13 +115,27 @@ void	add_color(t_fractol *fractol)
 	t_color *color;
 
 	color = malloc(sizeof(t_color)); //check les mallocs reussi
-	color->r = 0;
-	color->g = 0;
-	color->b = 0;
+	color->r = 255;
+	color->g = 255;
+	color->b = 255;
 	color->t = 0;
-	ft_lstadd_front(&(fractol->col.palette), ft_lstnew(color));
+	ft_lstinsert_after(fractol->col_mod, ft_lstnew(color));
 	fractol->col.count++;
 	fractol->rw = 1;
+}
+
+void calc_z_it_value(t_complexe *z, int *it, t_fractol* fractol)
+{
+	if (fractol->fract_type == mandelbrot)
+	{
+		set_complexe(z, 0, 0);
+		ft_calc_mandelbrot(z, fractol->c, it, fractol->precision);
+	}
+	if (fractol->fract_type == julia)
+	{
+		*z = fractol->c;
+		ft_calc_mandelbrot(z, fractol->mouse_c, it, fractol->precision);
+	}
 }
 
 // void change_color_aleatoire(t_fractol *fractol, t_color *col)
@@ -32,16 +143,6 @@ void	add_color(t_fractol *fractol)
 // 	col->r = (int)(col->r + 10 * M_PI * 179 / 43) % 255;
 // 	col->g = (int)(col->g + 130 * 32 * M_PI / 110) % 255;
 // 	col->b = (int)(col->b * 67 + 68 * M_PI / 71) % 255;
-// 	fractol->rw = 1;
-// }
-
-// void swap_color(t_fractol *fractol)
-// {
-// 	t_color tmp;
-
-// 	tmp = fractol->col.out_from;
-// 	fractol->col.out_from = fractol->col.out_to;
-// 	fractol->col.out_to = tmp;
 // 	fractol->rw = 1;
 // }
 
@@ -78,19 +179,10 @@ void ft_putcolor_to_pixel(t_fractol *fractol, int it, t_complexe z)
 			i -= (long double)fractol->precision / ((long double)fractol->col.count - (long double)1.0);
 		}
 		from = (t_color *)tmp->content;
-		if (tmp->next == NULL)
-		{
-			to = malloc(sizeof(t_color));
-			to->r = 255;
-			to->g = 0;
-			to->b = 0;
-			to->t = 0;
-		}
-		else
-			to = (t_color *)tmp->next->content;
-		color.r = from->r + (to->r - from->r) * i / fractol->precision;
-		color.g = from->g + (to->g - from->g) * i / fractol->precision;
-		color.b = from->b + (to->b - from->b) * i / fractol->precision;
+		to = (t_color *)tmp->next->content;
+		color.r = from->r + (to->r - from->r) * i / ((long double)fractol->precision / ((long double)fractol->col.count - (long double)1.0));
+		color.g = from->g + (to->g - from->g) * i / ((long double)fractol->precision / ((long double)fractol->col.count - (long double)1.0));
+		color.b = from->b + (to->b - from->b) * i / ((long double)fractol->precision / ((long double)fractol->col.count - (long double)1.0));
 		color.t = 0;
 	}
 	fractol->addr[fractol->pixel] = color.b;
@@ -170,7 +262,6 @@ void add_precision(t_fractol *fractol)
 {
 	int x;
 	int y;
-	t_complexe c;
 
 	y = 0;
 	while (y < fractol->v_size)
@@ -180,11 +271,7 @@ void add_precision(t_fractol *fractol)
 		{
 			if (fractol->grille[y][x].it == fractol->precision)
 			{
-				set_complexe(&c, fractol->h_s + x * fractol->pat, //setcomplexe(fractol,x,y);
-							fractol->v_s - y * fractol->pat);
-				next_mandelbrot(&fractol->grille[y][x].z, c); //fractol->fct(fractol, y, x)
-				if (mod_complexe(fractol->grille[y][x].z) <= 2)
-					fractol->grille[y][x].it += 1;
+				fractol->grille[y][x].it = -1;
 			}
 			x++;
 		}
@@ -194,51 +281,6 @@ void add_precision(t_fractol *fractol)
 	fractol->rw = 1;
 }
 
-void next_wtf(t_complexe *prec, t_complexe c)
-{
-	// t_complexe feigenbaum;
-
-	// feigenbaum.r = -1.401155;
-	// feigenbaum.i = 0;
-	sq_complexe(&c);
-	sq_complexe(prec);
-	add_complexe(prec, *prec, c);
-	//add_complexe(prec, *prec, feigenbaum);
-}
-
-void ft_calc_wtf(t_complexe *z, t_complexe c, int *it, int it_max)
-{
-	int i;
-
-	i = 0;
-	while (i < it_max)
-	{
-		if (z->r * z->r + z->i * z->i > 2)
-			break;
-		next_wtf(z, c);
-		i++;
-	}
-	*it = i;
-}
-
-void calc_z_it_value(t_complexe *z, int *it, t_fractol* fractol)
-{
-	if (fractol->fract_type == mandelbrot)
-	{
-		set_complexe(z, 0, 0);
-		ft_calc_mandelbrot(z, fractol->c, it, fractol->precision);
-	}
-	if (fractol->fract_type == julia)
-	{
-		*z = fractol->c;
-		ft_calc_mandelbrot(z, fractol->mouse_c, it, fractol->precision);
-	}
-	// if (fractol->fract_type == wtf)
-	// {
-	// 	set_complexe(z, 0, 0);
-	// 	ft_calc_wtf(z, c, it, fractol->precision);
-	// }
-}
 
 void ft_calc_mandelbrot(t_complexe *z, t_complexe c, int *it, int it_max)
 {

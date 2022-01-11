@@ -13,6 +13,17 @@
 #include <stdlib.h>
 #include "libft.h"
 
+void ft_lstinsert_after(t_list **alst, t_list *new)
+{
+	if (*alst == NULL)
+		*alst = new;
+	else
+	{
+		new->next = (*alst)->next;
+		(*alst)->next = new;
+	}
+}
+
 void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
 	if (lst)

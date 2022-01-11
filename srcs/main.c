@@ -50,14 +50,9 @@ static void put_default_arg(t_fractol *fractol)
 	fractol->rwa = 0;
 	fractol->h_s = -2.25;
 	fractol->v_s = 1.25;
-	t_color *first;
-	first = malloc(sizeof(t_color));
-	first->r = 255;
-	first->g = 255;
-	first->b = 255;
-	first->t = 0;
-	fractol->col.palette = ft_lstnew(first);
-	fractol->col.count = 1;
+	fractol->color_set = white;
+	create_panel(fractol);
+	fractol->col_panel_active = 0;
 	init_keys(fractol);
 	fractol->pat = 2.75 / fractol->v_size;	
 	set_complexe(&fractol->mouse_c, fractol->h_s + fractol->m_x * fractol->pat,

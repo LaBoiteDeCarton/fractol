@@ -73,22 +73,26 @@ void		move_left(t_fractol *fractol, int speed)
 	fractol->rw = 1;
 }
 
-void		move_right(t_fractol *fractol)
+void		move_right(t_fractol *fractol, int speed)
 {
 	int i;
 	int j;
 
-	fractol->h_s += fractol->pat;
+	fractol->h_s += fractol->pat * speed;
 	i = 0;
 	while (i < fractol->v_size)
 	{
 		j = 0;
-		while (j < fractol->h_size - 1)
+		while (j < fractol->h_size - speed)
 		{
-			fractol->grille[i][j] = fractol->grille[i][j+1]; 
+			fractol->grille[i][j] = fractol->grille[i][j + speed]; 
 			j++;
 		}
-		fractol->grille[i][fractol->h_size - 1].it = -1;
+		while (j < fractol->h_size)
+		{
+			fractol->grille[i][j].it = -1;
+			j++;
+		}
 		i++;
 	}
 	fractol->rw = 1;

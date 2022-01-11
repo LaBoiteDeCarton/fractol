@@ -7,11 +7,21 @@ void check_mouse_change(t_fractol *fractol)
 
 	mlx_mouse_get_pos(fractol->win, &x, &y);
 	if (fractol->active_mouse && (fractol->m_x != x || fractol->m_y != y))
+	{
 		fractol->rwa = 1;
+		set_complexe(&fractol->mouse_c, fractol->h_s + fractol->m_x * fractol->pat,
+					fractol->v_s - fractol->m_y * fractol->pat);
+	}
+	if (fractol->col_panel_active && (fractol->m_x != x || fractol->m_y != y))
+	{
+		((t_color *)(*(fractol->col_mod))->content)->r = x * 255 / fractol->h_size;
+		((t_color *)(*(fractol->col_mod))->content)->g = y * 255 / fractol->v_size;
+		((t_color *)(*(fractol->col_mod))->content)->b = 0;
+		((t_color *)(*(fractol->col_mod))->content)->t = 0;
+		fractol->rw = 1;
+	}
 	fractol->m_x = x;
 	fractol->m_y = y;
-	set_complexe(&fractol->mouse_c, fractol->h_s + fractol->m_x * fractol->pat,
-					fractol->v_s - fractol->m_y * fractol->pat);
 }
 
 int ft_loop_hook(t_fractol *fractol)
@@ -30,13 +40,12 @@ int ft_loop_hook(t_fractol *fractol)
 	if (fractol->keys.k_a_left)
 		move_left(fractol, speed);
 	if (fractol->keys.k_a_right)
-		move_right(fractol);
+		move_right(fractol, speed);
 	if (fractol->keys.k_a_up)
 		move_up(fractol, speed);
 	if (fractol->keys.k_a_down)
 		move_down(fractol, speed);
-	if (fractol->active_mouse)
-		check_mouse_change(fractol);
+	check_mouse_change(fractol);
 	return (0);
 }
 
@@ -58,9 +67,10 @@ int ft_key_hook(int keycode, t_fractol *fractol)
 		fractol->keys.k_shift = 1;
 	else if (keycode == K_SHIFT2)
 		fractol->keys.k_shift2 = 1;
-	else if (keycode == 53)
+	else if (keycode == K_ESC)
 	{
 		mlx_destroy_window(fractol->mlx, fractol->win);
+		//add freeeeee(fractol);
 		exit(EXIT_SUCCESS);
 	}
 	printf("keycode = '%d'\n", keycode);
@@ -85,29 +95,30 @@ int ft_key_release(int keycode, t_fractol *fractol)
 		fractol->keys.k_shift = 0;
 	else if (keycode == K_SHIFT2)
 		fractol->keys.k_shift2 = 0;
-	else if (keycode == K_A)
-		zoom_in(fractol, fractol->h_size / 2, fractol->v_size / 2);
 	else if (keycode == K_I)
 		print_info(fractol);
-	else if (keycode == 18)
-		add_color(fractol);	
-	//change_color_aleatoire(fractol, &(fractol->col.in));
-	// else if (keycode == 19)
-	// 	change_color_aleatoire(fractol, &(fractol->col.out_from));
-	// else if (keycode == 20)
-	// 	change_color_aleatoire(fractol, &(fractol->col.out_to));
-	// else if (keycode == 21)
-	// 	swap_color(fractol);
+	else if (keycode == K_2 && fractol->col_panel_active)
+		panel_next(fractol);
+	else if (keycode == K_3 && fractol->col_panel_active)
+		add_color(fractol);
+	else if (keycode == K_C)
+		active_color_panel(fractol);
+	else if (keycode == K_TAB && !fractol->col_panel_active)
+	{
+		switch_color(fractol);
+		create_panel(fractol);
+		fractol->rw = 1;
+	}
 	return (0);
 }
 
 int ft_mouse_hook(int button, int x, int y, t_fractol *fractol)
 {
-	if (button == 1)
+	if (button == 1 && fractol->col_panel_active == 0)
 		fractol->active_mouse = (fractol->active_mouse + 1) % 2;
-	if (button == 4)
+	if (button == 4 && fractol->col_panel_active == 0)
 		zoom_out(fractol, x, y);
-	if (button == 5)
+	if (button == 5 && fractol->col_panel_active == 0)
 		zoom_in(fractol, x, y);
 	printf("position : (%d,%d)", x, y);
 	printf("%d\n", button);

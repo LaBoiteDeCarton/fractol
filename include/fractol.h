@@ -26,6 +26,13 @@
 # define K_P 35
 # define K_M 41
 # define K_A 12
+# define K_C 8
+# define K_1 18
+# define K_2 19
+# define K_3 20
+# define K_4 21
+# define K_ESC 53
+# define K_TAB 48
 # define K_SHIFT 258
 # define K_SHIFT2 257
 
@@ -43,6 +50,14 @@ struct s_color
 	int g;
 	int b;
 };
+
+typedef enum s_col_set_type
+{
+	white,
+	white_to_black,
+	black_to_white,
+	yang_shi
+} t_col_set_type;
 
 struct s_col
 {
@@ -92,6 +107,9 @@ struct s_fractol
 	t_complexe		c;
 	t_complexe		mouse_c;
 	t_col			col;
+	t_list			**col_mod;
+	t_col_set_type	color_set;
+	int				col_panel_active;
 	int				active_mouse;
 	int				m_x;
 	int				m_y;
@@ -133,7 +151,7 @@ int			calc_mandelbrot(t_complexe c, int it);
 void		move_down(t_fractol *fractol, int y);
 void		move_up(t_fractol *fractol, int y);
 void		move_left(t_fractol *fractol, int speed);
-void		move_right(t_fractol *fractol);
+void		move_right(t_fractol *fractol, int speed);
 void		zoom_out(t_fractol *fractol, int x, int y);
 void		zoom_in(t_fractol *fractol, int x, int y);
 void		calc(t_fractol *fractol);
@@ -148,6 +166,10 @@ void		change_color_aleatoire(t_fractol *fractol, t_color *col);
 void		put_trgb_color(t_color *color, int trgb);
 void		swap_color(t_fractol *fractol);
 void		add_color(t_fractol *fractol);
+void		active_color_panel(t_fractol *fractol);
+void		panel_next(t_fractol *fractol);
+void		create_panel(t_fractol *fractol);
+void		switch_color(t_fractol *fractol);
 
 //hooks functions
 
