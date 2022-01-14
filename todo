@@ -15,7 +15,7 @@ Une fois laché la couleur figé.
 
 Espace et C met le mouse_active à 0; utiliser get_mouse_position (pas besoin d'utiliser la structure?);
 Ajouter boolean Color_panel_active
-Si active -> fractol->rw = 1 lors du mouvement souris, pas besoin de modifier m_x et m_y car sinon julia foutue.
+Si active -> fct->rw = 1 lors du mouvement souris, pas besoin de modifier m_x et m_y car sinon julia foutue.
 
 
 C = 8;

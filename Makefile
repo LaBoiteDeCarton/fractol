@@ -3,11 +3,14 @@ S_DIR = srcs
 H_DIR = include
 SRCS_FILES = main.c \
 				complexe.c \
-				fractol.c \
+				fct.c \
 				handle_errors.c \
 				hooks.c \
 				move.c \
-				zoom.c
+				zoom.c \
+				precision.c \
+				color.c \
+				panel_color.c
 SRCS = $(addprefix ${S_DIR}/, ${SRCS_FILES})
 OBJS = ${SRCS:.c=.o}
 FLAGS = -Wall -Wextra -Werror -I ${H_DIR}
