@@ -12,6 +12,7 @@ static void	init_keys(t_fct *fct)
 	fct->keys.k_a_up = 0;
 	fct->keys.k_shift = 0;
 	fct->keys.k_shift2 = 0;
+	fct->keys.k_space = 0;
 }
 
 static void	malloc_grille(t_fct *fct)
@@ -53,6 +54,9 @@ static void	put_default_arg(t_fct *fct)
 	fct->v_s = 1.25;
 	fct->color_set = white;
 	fct->blue = 0;
+	fct->col.palette = NULL;
+	fct->col.inside = NULL;
+	fct->lissage = 1;
 	create_panel(fct);
 	fct->col_panel_active = 0;
 	init_keys(fct);

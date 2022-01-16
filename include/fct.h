@@ -27,6 +27,7 @@
 # define K_M 41
 # define K_A 12
 # define K_C 8
+# define K_L 37
 # define K_1 18
 # define K_2 19
 # define K_3 20
@@ -35,6 +36,7 @@
 # define K_TAB 48
 # define K_SHIFT 258
 # define K_SHIFT2 257
+# define K_SPACE 49
 
 typedef struct s_fct			t_fct;
 typedef struct s_complexe		t_complexe;
@@ -56,12 +58,15 @@ typedef enum s_col_set_type
 	white,
 	white_to_black,
 	black_to_white,
-	yang_shi
+	yang_shi,
+	medical,
+	mindf
 }	t_col_set_type;
 
 struct	s_col
 {
 	t_list	*palette;
+	t_list	*inside;
 	int		count;
 };
 
@@ -97,6 +102,7 @@ struct s_key_stat
 	int	k_i;
 	int	k_shift;
 	int	k_shift2;
+	int k_space;
 };
 
 struct	s_fct
@@ -107,6 +113,7 @@ struct	s_fct
 	t_complexe		c;
 	t_complexe		mouse_c;
 	t_col			col;
+	t_color			inside;
 	t_list			**col_mod;
 	t_col_set_type	color_set;
 	int				blue;
@@ -129,6 +136,7 @@ struct	s_fct
 	long double		h_s;
 	long double		v_s;
 	int				precision;
+	int				lissage;
 	long double		pat;
 };
 
@@ -180,6 +188,7 @@ void		panel_add_color(t_fct *fct);
 void		panel_next(t_fct *fct);
 void		panel_blue_down(t_fct *fct);
 void		panel_blue_up(t_fct *fct);
+void		panel_color_inside(t_fct *fct);
 
 //Move/Zoom inside fractal funcitons
 

@@ -35,7 +35,7 @@ void	init_grille(t_fct *fct)
 		x = 0;
 		while (x < fct->h_size)
 		{
-			fct->grille[y][x].it = -1;
+			fct->grille[y][x].it = 0;
 			fct->grille[y][x].z.r = 0;
 			fct->grille[y][x].z.i = 0;
 			x++;
@@ -51,7 +51,7 @@ void	reset_ligne(t_case *cases, int size)
 	i = 0;
 	while (i < size)
 	{
-		cases->it = -1;
+		cases->it = 0;
 		cases++;
 		i++;
 	}
@@ -80,13 +80,11 @@ void	calc(t_fct *fct)
 		x = 0;
 		while (x < fct->h_size)
 		{
-			if (fct->grille[y][x].it == -1 || fct->rwa)
-			{
-				set_complexe(&(fct->c), fct->h_s + x * fct->pat,
-					fct->v_s - y * fct->pat);
+			set_complexe(&(fct->c), fct->h_s + x * fct->pat,
+				fct->v_s - y * fct->pat);
+			if (fct->rwa)
 				fct->grille[y][x].it = 0;
-				calc_z_it_value(&(fct->grille[y][x].z), &(fct->grille[y][x].it), fct);
-			}
+			calc_z_it_value(&(fct->grille[y][x].z), &(fct->grille[y][x].it), fct);
 			fct->pixel = (y * fct->line_length) + (x * 4);
 			ft_findcolor_to_pixel(fct, fct->grille[y][x].it, fct->grille[y][x].z);
 			x++;
@@ -103,11 +101,28 @@ void	next_mandelbrot(t_complexe *prec, t_complexe c)
 	add_complexe(prec, *prec, c);
 }
 
-void	print_info(t_fct *fct)
+void	print_one_color(void *color)
+{
+	printf("(r, g, b) : (%d, %d, %d)\n",
+		((t_color *)color)->r,
+		((t_color *)color)->g,
+		((t_color *)color)->b);
+}
+
+void	print_colors(t_fct *fct)
+{
+	printf("outside colors : \n");
+	ft_lstiter(fct->col.palette, &print_one_color);
+	printf("inside color : \n");
+	ft_lstiter(fct->col.inside, &print_one_color);
+}
+
+void	print_info(t_fct *fct) //TO DELETE
 {
 	ft_putendl_fd("Fractal : Mandelbrot", 1);
 	ft_putstr_fd("Precision : ", 1);
 	ft_putnbr_fd(fct->precision, 1);
 	ft_putendl_fd("", 1);
 	printf("Position (x,y) : %Lf, %Lf\n", fct->h_s, fct->v_s);
+	print_colors(fct);
 }

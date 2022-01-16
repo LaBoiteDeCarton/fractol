@@ -65,7 +65,7 @@ void	move_left(t_fct *fct, int speed)
 		}
 		while (j >= 0)
 		{	
-			fct->grille[i][j].it = -1;
+			fct->grille[i][j].it = 0;
 			j--;
 		}
 		i++;
@@ -90,7 +90,7 @@ void	move_right(t_fct *fct, int speed)
 		}
 		while (j < fct->h_size)
 		{
-			fct->grille[i][j].it = -1;
+			fct->grille[i][j].it = 0;
 			j++;
 		}
 		i++;

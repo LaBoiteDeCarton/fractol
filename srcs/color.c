@@ -27,26 +27,28 @@ void	ft_findcolor_to_pixel(t_fct *fct, int it, t_complexe z)
 	t_color	*from;
 	t_color	*to;
 	t_list	*tmp;
-	long double	i;
+	double	i;
 
-	if (it == fct->precision)
-		put_trgb_color(&color, 0, 0, 0);
+	if (it >= fct->precision)
+		color = *((t_color *)fct->col.inside->content);
 	else if (fct->col.count == 1)
 		color = *(t_color *)(fct->col.palette->content);
 	else
 	{
-		i = it + (long double)1 - logl(log2l(mod_complexe(z)));
+		i = it;
+		if (fct->lissage)
+			i = it + 1.0 - log(log2(mod_complexe(z)));
 		tmp = fct->col.palette;
-		while (i > (long double)fct->precision / ((long double)fct->col.count - (long double)1.0))
+		while (i > (double)fct->precision / ((double)(fct->col.count - 1)))
 		{
 			tmp = tmp->next;
-			i -= (long double)fct->precision / ((long double)fct->col.count - (long double)1.0);
+			i -= (double)fct->precision / ((double)(fct->col.count - 1));
 		}
 		from = (t_color *)tmp->content;
 		to = (t_color *)tmp->next->content;
-		color.r = from->r + (to->r - from->r) * i / ((long double)fct->precision / ((long double)fct->col.count - (long double)1.0));
-		color.g = from->g + (to->g - from->g) * i / ((long double)fct->precision / ((long double)fct->col.count - (long double)1.0));
-		color.b = from->b + (to->b - from->b) * i / ((long double)fct->precision / ((long double)fct->col.count - (long double)1.0));
+		color.r = from->r + (to->r - from->r) * i / ((double)fct->precision / ((double)fct->col.count - 1.0));
+		color.g = from->g + (to->g - from->g) * i / ((double)fct->precision / ((double)fct->col.count - 1.0));
+		color.b = from->b + (to->b - from->b) * i / ((double)fct->precision / ((double)fct->col.count - 1.0));
 		color.t = 0;
 	}
 	ft_putcolor_to_pixel(color, fct);
@@ -55,5 +57,7 @@ void	ft_findcolor_to_pixel(t_fct *fct, int it, t_complexe z)
 void	detsroy_panel_color(t_fct *fct)
 {
 	if (fct->col.palette)
+		ft_lstclear(&(fct->col.palette), free);
+	if (fct->col.inside)
 		ft_lstclear(&(fct->col.palette), free);
 }

@@ -70,6 +70,8 @@ int	ft_key_hook(int keycode, t_fct *fct)
 		fct->keys.k_shift = 1;
 	else if (keycode == K_SHIFT2)
 		fct->keys.k_shift2 = 1;
+	else if (keycode == K_SPACE && fct->col_panel_active)
+		panel_color_inside(fct);
 	else if (keycode == K_ESC)
 	{
 		mlx_destroy_window(fct->mlx, fct->win);
@@ -86,6 +88,11 @@ int	ft_key_release(int keycode, t_fct *fct)
 		fct->keys.k_m = 0;
 	else if (keycode == K_P)
 		fct->keys.k_p = 0;
+	else if (keycode == K_L)
+	{
+		fct->lissage = (fct->lissage + 1) % 2;
+		fct->rw = 1;
+	}
 	else if (keycode == K_A_DOWN)
 		fct->keys.k_a_down = 0;
 	else if (keycode == K_A_LEFT)
@@ -99,7 +106,13 @@ int	ft_key_release(int keycode, t_fct *fct)
 	else if (keycode == K_SHIFT2)
 		fct->keys.k_shift2 = 0;
 	else if (keycode == K_I)
-		print_info(fct);
+		print_info(fct); // a enlever car printf
+	else if (keycode == K_SPACE && fct->col_panel_active)
+	{
+		fct->col_panel_active = 0;
+		fct->keys.k_space = 0;
+		active_color_panel(fct);
+	}
 	else if (keycode == K_2 && fct->col_panel_active)
 		panel_next(fct);
 	else if (keycode == K_3 && fct->col_panel_active)
@@ -110,7 +123,6 @@ int	ft_key_release(int keycode, t_fct *fct)
 	{
 		switch_color(fct);
 		create_panel(fct);
-		fct->rw = 1;
 	}
 	return (0);
 }
