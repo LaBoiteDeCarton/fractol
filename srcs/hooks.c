@@ -18,9 +18,9 @@ void	check_mouse_change(t_fct *fct)
 	}
 	else if (fct->col_panel_active && (fct->m_x != x || fct->m_y != y))
 	{
-		((t_color *)(*(fct->col_mod))->content)->r = x * 255 / fct->h_size;
-		((t_color *)(*(fct->col_mod))->content)->g = y * 255 / fct->v_size;
-		((t_color *)(*(fct->col_mod))->content)->t = 0;
+		((t_color *)(fct->col_mod)->content)->r = x * 255 / fct->h_size;
+		((t_color *)(fct->col_mod)->content)->g = y * 255 / fct->v_size;
+		((t_color *)(fct->col_mod)->content)->t = 0;
 		fct->rw = 1;
 	}
 	fct->m_x = x;
@@ -70,6 +70,8 @@ int	ft_key_hook(int keycode, t_fct *fct)
 		fct->keys.k_shift = 1;
 	else if (keycode == K_SHIFT2)
 		fct->keys.k_shift2 = 1;
+	else if (keycode == K_T)
+		fct->keys.k_t = 1;
 	else if (keycode == K_SPACE && fct->col_panel_active)
 		panel_color_inside(fct);
 	else if (keycode == K_ESC)
@@ -105,6 +107,8 @@ int	ft_key_release(int keycode, t_fct *fct)
 		fct->keys.k_shift = 0;
 	else if (keycode == K_SHIFT2)
 		fct->keys.k_shift2 = 0;
+	else if (keycode == K_T)
+		fct->keys.k_t = 0;
 	else if (keycode == K_I)
 		print_info(fct); // a enlever car printf
 	else if (keycode == K_SPACE && fct->col_panel_active)

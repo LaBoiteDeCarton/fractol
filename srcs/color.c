@@ -21,7 +21,7 @@ static void	ft_putcolor_to_pixel(t_color color, t_fct *fct)
 	fct->addr[fct->pixel + 3] = color.t;
 }
 
-void	ft_findcolor_to_pixel(t_fct *fct, int it, t_complexe z)
+void	ft_findcolor_to_pixel(t_fct *fct, unsigned int it, t_complexe z)
 {
 	t_color	color;
 	t_color	*from;
@@ -46,10 +46,11 @@ void	ft_findcolor_to_pixel(t_fct *fct, int it, t_complexe z)
 		}
 		from = (t_color *)tmp->content;
 		to = (t_color *)tmp->next->content;
-		color.r = from->r + (to->r - from->r) * i / ((double)fct->precision / ((double)fct->col.count - 1.0));
-		color.g = from->g + (to->g - from->g) * i / ((double)fct->precision / ((double)fct->col.count - 1.0));
-		color.b = from->b + (to->b - from->b) * i / ((double)fct->precision / ((double)fct->col.count - 1.0));
-		color.t = 0;
+		i = i / ((double)fct->precision / ((double)fct->col.count - 1.0));
+		color.r = from->r + (to->r - from->r) * i;
+		color.g = from->g + (to->g - from->g) * i;
+		color.b = from->b + (to->b - from->b) * i;
+		color.t = from->t + (to->t - from->t) * i;
 	}
 	ft_putcolor_to_pixel(color, fct);
 }

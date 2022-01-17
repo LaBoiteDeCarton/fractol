@@ -1,6 +1,6 @@
 #include "fct.h"
 
-void	calc_z_it_value(t_complexe *z, int *it, t_fct *fct)
+void	calc_z_it_value(t_complexe *z, unsigned int *it, t_fct *fct)
 {
 	if (fct->fract_type == mandelbrot)
 	{
@@ -57,7 +57,7 @@ void	reset_ligne(t_case *cases, int size)
 	}
 }
 
-void	ft_calc_mandelbrot(t_complexe *z, t_complexe c, int *it, int it_max)
+void	ft_calc_mandelbrot(t_complexe *z, t_complexe c, unsigned int *it, unsigned int it_max)
 {
 	while (*it < it_max)
 	{

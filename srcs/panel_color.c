@@ -210,11 +210,10 @@ void	active_color_panel(t_fct *fct)
 	{
 		fct->col_panel_active = 1;
 		fct->active_mouse = 0;
-		fct->col_mod = &(fct->col.palette);
+		fct->col_mod = fct->col.palette;
 		mlx_mouse_move(fct->win,
-			((t_color *)(*(fct->col_mod))->content)->r * fct->h_size / 255,
-			((t_color *)(*(fct->col_mod))->content)->g * fct->v_size / 255);
-		fct->blue = ((t_color *)(*(fct->col_mod))->content)->b;
+			((t_color *)(fct->col_mod)->content)->r * fct->h_size / 255,
+			((t_color *)(fct->col_mod)->content)->g * fct->v_size / 255);
 	}
 }
 
@@ -236,12 +235,11 @@ void	switch_color(t_fct *fct)
 
 void	panel_next(t_fct *fct)
 {
-	if ((*(fct->col_mod))->next)
-		fct->col_mod = &((*(fct->col_mod))->next);
+	if (fct->col_mod->next)
+		fct->col_mod = fct->col_mod->next;
 	mlx_mouse_move(fct->win,
-		((t_color *)(*(fct->col_mod))->content)->r * fct->h_size / 255,
-		((t_color *)(*(fct->col_mod))->content)->g * fct->v_size / 255);
-	fct->blue = ((t_color *)(*(fct->col_mod))->content)->b;
+		((t_color *)(fct->col_mod)->content)->r * fct->h_size / 255,
+		((t_color *)(fct->col_mod)->content)->g * fct->v_size / 255);
 }
 
 void	panel_add_color(t_fct *fct)
@@ -257,7 +255,7 @@ void	panel_add_color(t_fct *fct)
 			handle_error(ERR_MALLOC);
 		}
 		put_trgb_color(color, 255, 255, 255);
-		ft_lstinsert_after(fct->col_mod, ft_lstnew(color));
+		ft_lstinsert_after(&fct->col_mod, ft_lstnew(color));
 		fct->col.count++;
 		fct->rw = 1;
 	}
@@ -265,29 +263,30 @@ void	panel_add_color(t_fct *fct)
 
 void	panel_color_inside(t_fct *fct)
 {
-	if (fct->col_panel_active)
+	if (fct->col_panel_active && !fct->keys.k_space)
 	{
-		fct->col_mod = &(fct->col.inside);
+		fct->col_mod = fct->col.inside;
 		mlx_mouse_move(fct->win,
-			((t_color *)(*(fct->col_mod))->content)->r * fct->h_size / 255,
-			((t_color *)(*(fct->col_mod))->content)->g * fct->v_size / 255);
-		fct->blue = ((t_color *)(*(fct->col_mod))->content)->b;
+			((t_color *)(fct->col_mod)->content)->r * fct->h_size / 255,
+			((t_color *)(fct->col_mod)->content)->g * fct->v_size / 255);
 	}
 	fct->keys.k_space = 1;
 }
 
 void	panel_blue_down(t_fct *fct)
 {
-	if (fct->blue > 20)
-		fct->blue -= 20;
-	((t_color *)(*(fct->col_mod))->content)->b = fct->blue;
+	if (fct->keys.k_t)
+		((t_color *)(fct->col_mod)->content)->t -= 20;
+	else
+		((t_color *)(fct->col_mod)->content)->b -= 20;
 	fct->rw = 1;
 }
 
 void	panel_blue_up(t_fct *fct)
 {
-	if (fct->blue < 235)
-		fct->blue += 20;
-	((t_color *)(*(fct->col_mod))->content)->b = fct->blue;
+	if (fct->keys.k_t)
+		((t_color *)(fct->col_mod)->content)->t += 20;
+	else
+		((t_color *)(fct->col_mod)->content)->b += 20;
 	fct->rw = 1;
 }
