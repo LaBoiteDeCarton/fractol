@@ -10,7 +10,8 @@ SRCS_FILES = main.c \
 				zoom.c \
 				precision.c \
 				color.c \
-				panel_color.c
+				panel_color.c \
+				utils_grille.c
 SRCS = $(addprefix ${S_DIR}/, ${SRCS_FILES})
 OBJS = ${SRCS:.c=.o}
 FLAGS = -Wall -Wextra -Werror -I ${H_DIR}

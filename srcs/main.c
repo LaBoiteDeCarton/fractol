@@ -16,27 +16,6 @@ static void	init_keys(t_fct *fct)
 	fct->keys.k_t = 0;
 }
 
-static void	malloc_grille(t_fct *fct)
-{
-	int	i;
-
-	fct->grille = (t_case **)malloc(sizeof(t_case *) * fct->v_size);
-	if (!fct->grille)
-		handle_error(ERR_MALLOC);
-	i = 0;
-	while (i < fct->v_size)
-	{
-		fct->grille[i] = (t_case *)malloc(sizeof(t_case) * fct->h_size);
-		if (!fct->grille[i])
-		{
-			while (--i >= 0) //bien verifier que le free fait tout frire
-				free(fct->grille[i]);
-			handle_error(ERR_MALLOC);
-		}
-		i++;
-	}
-}
-
 static void	put_default_arg(t_fct *fct)
 {
 	fct->h_size = H_LARGE_SIZE;
@@ -71,20 +50,46 @@ static void	init_first_arg(char *str, t_fct *fct)
 		fct->fract_type = mandelbrot;
 	else if (!ft_strncmp(str, "julia", 5))
 		fct->fract_type = julia;
-	else if (!ft_strncmp(str, "wtf", 3))
-		fct->fract_type = wtf;
+	else if (!ft_strncmp(str, "mandelbrot2", 12))
+		fct->fract_type = mandelbrot2;
+	else if (!ft_strncmp(str, "mandelbrot3", 12))
+		fct->fract_type = mandelbrot3;
 	else
 		handle_error(ERR_FRACTTYPE);
 }
+
+static void init_second_arg(char *str, t_fct *fct)
+{
+	if (!ft_strisdigit(str))
+		handle_error(ERR_PREC_UINT);
+	if (ft_strlen(str) > 4)
+		handle_error(ERR_PREC_TOOBIG);
+	fct->precision = ft_atoi(str);
+}
+
+// static void	init_arg_coord(char *str1, char *str2, char *str3, t_fct *fct)
+// {
+// 	if (!ft_strisld(str1) || !ft_strisld(str2) || !ft_strisld(str3))
+// 		handle_error(ERR_COORD_TYPE);
+// 	fct->h_s = ft_strtold(str1);
+// 	fct->v_s = ft_strtold(str2);
+// 	fct->pat = ft_strtold(str3);
+// }
 
 static void	init_arg_fct(int ac, char **av, t_fct *fct)
 {
 	if (ac <= 0)
 		handle_error(ERR_NOARG);
+	put_default_arg(fct);
 	init_first_arg(av[0], fct);
 	if (ac > 1)
+		init_second_arg(av[1], fct);
+	// if (ac == 3 || ac == 4)
+	// 	handle_error(ERR_COORD2);
+	// if (ac > 4)
+	// 	init_arg_coord(av[2], av[3], av[4], fct);
+	if (ac > 2)
 		handle_error(ERR_TOOMUCHARG);
-	put_default_arg(fct);
 }
 
 int	main(int ac, char **av)

@@ -50,7 +50,7 @@ void	ft_findcolor_to_pixel(t_fct *fct, unsigned int it, t_complexe z)
 		color.r = from->r + (to->r - from->r) * i;
 		color.g = from->g + (to->g - from->g) * i;
 		color.b = from->b + (to->b - from->b) * i;
-		color.t = from->t + (to->t - from->t) * i;
+		color.t = 0;
 	}
 	ft_putcolor_to_pixel(color, fct);
 }

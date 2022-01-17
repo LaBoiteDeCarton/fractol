@@ -233,6 +233,14 @@ void	switch_color(t_fct *fct)
 		fct->color_set = white;
 }
 
+// void panel_color_aleatoire(t_fct *fct, t_color *col)
+// {
+// 	col->r = (int)(col->r + 10 * M_PI * 179 / 43) % 255;
+// 	col->g = (int)(col->g + 130 * 32 * M_PI / 110) % 255;
+// 	col->b = (int)(col->b * 67 + 68 * M_PI / 71) % 255;
+// 	fct->rw = 1;
+// }
+
 void	panel_next(t_fct *fct)
 {
 	if (fct->col_mod->next)
@@ -269,24 +277,18 @@ void	panel_color_inside(t_fct *fct)
 		mlx_mouse_move(fct->win,
 			((t_color *)(fct->col_mod)->content)->r * fct->h_size / 255,
 			((t_color *)(fct->col_mod)->content)->g * fct->v_size / 255);
+		fct->keys.k_space = 1;
 	}
-	fct->keys.k_space = 1;
 }
 
 void	panel_blue_down(t_fct *fct)
 {
-	if (fct->keys.k_t)
-		((t_color *)(fct->col_mod)->content)->t -= 20;
-	else
-		((t_color *)(fct->col_mod)->content)->b -= 20;
+	((t_color *)(fct->col_mod)->content)->b -= 20  * (((t_color *)(fct->col_mod)->content)->b >= 20);
 	fct->rw = 1;
 }
 
 void	panel_blue_up(t_fct *fct)
 {
-	if (fct->keys.k_t)
-		((t_color *)(fct->col_mod)->content)->t += 20;
-	else
-		((t_color *)(fct->col_mod)->content)->b += 20;
+	((t_color *)(fct->col_mod)->content)->b += 20  * (((t_color *)(fct->col_mod)->content)->b <= 235);
 	fct->rw = 1;
 }

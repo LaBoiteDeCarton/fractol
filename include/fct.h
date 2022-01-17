@@ -6,12 +6,14 @@
 # include <math.h>
 # include "libft.h"
 # include "mlx.h"
-# define EXEC_PROTO "Usage : fct <fractal-type>\n"
-# define ERR_NOARG "Please enter some arguments\n"
-# define ERR_MALLOC "We got some trouble to malloc capitain\n"
-# define ERR_FRACTTYPE "Never heard about that fractal before\n"
-# define ERR_BAD2ARG "The precision should be only digits, like '42'\n"
+# define EXEC_PROTO "Usage : fct <fractal-type> <prec:unsigned int> <escape:int>"
+# define ERR_NOARG "Please enter some arguments"
+# define ERR_MALLOC "We got some trouble to malloc capitain"
+# define ERR_FRACTTYPE "Never heard about that fractal before"
+# define ERR_BAD2ARG "The precision should be only digits, like '42'"
 # define ERR_TOOMUCHARG "Wait, you talk too much, tell me only the fractal name please"
+# define ERR_PREC_UINT "precision type : <unsigned int>"
+# define ERR_PREC_TOOBIG "precision is too big, we dont have eternity"
 
 # define H_MEDIUM_SIZE 720
 # define V_MEDIUM_SIZE 480
@@ -28,7 +30,6 @@
 # define K_A 12
 # define K_C 8
 # define K_L 37
-# define K_T 17
 # define K_1 18
 # define K_2 19
 # define K_3 20
@@ -87,7 +88,8 @@ typedef enum s_fract_type
 {
 	mandelbrot,
 	julia,
-	wtf
+	mandelbrot2,
+	mandelbrot3
 }	t_fract_type;
 
 struct s_key_stat
@@ -154,6 +156,18 @@ long double	mod_complexe(t_complexe z);
 void		handle_error(char *err);
 void		freee(t_fct *fct);
 
+//Grille manipulation
+
+void		malloc_grille(t_fct *fct);
+void		free_grille(t_fct *fct);
+void		init_grille(t_fct *fct);
+void		reset_ligne(t_case *cases, int size);
+
+//ld functions
+
+int			ft_strisld(char *str);
+long double	ft_strtold(char *str);
+
 //Fractale calc and display functions
 
 void		display(t_fct *fractale);
@@ -162,7 +176,11 @@ void		ft_mandelbrot(t_complexe *z, t_complexe z2);
 int			calc_mandelbrot(t_complexe c, int it);
 void		calc(t_fct *fct);
 void		ft_calc_mandelbrot(t_complexe *z, t_complexe c, unsigned int *it, unsigned int it_max);
+void		ft_calc_mandelbrot2(t_complexe *z, t_complexe c, unsigned int *it, unsigned int it_max);
+void		ft_calc_mandelbrot3(t_complexe *z, t_complexe c, unsigned int *it, unsigned int it_max);
 void		next_mandelbrot(t_complexe *prec, t_complexe c);
+void		next_mandelbrot2(t_complexe *prec, t_complexe c);
+void		next_mandelbrot3(t_complexe *prec, t_complexe c);
 void		init_grille(t_fct *fct);
 void		print_info(t_fct *fct);
 void		calc_z_it_value(t_complexe *z, unsigned int *it, t_fct *fct);

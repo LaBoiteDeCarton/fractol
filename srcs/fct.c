@@ -14,46 +14,17 @@ void	calc_z_it_value(t_complexe *z, unsigned int *it, t_fct *fct)
 			*z = fct->c;
 		ft_calc_mandelbrot(z, fct->mouse_c, it, fct->precision);
 	}
-}
-
-// void change_color_aleatoire(t_fct *fct, t_color *col)
-// {
-// 	col->r = (int)(col->r + 10 * M_PI * 179 / 43) % 255;
-// 	col->g = (int)(col->g + 130 * 32 * M_PI / 110) % 255;
-// 	col->b = (int)(col->b * 67 + 68 * M_PI / 71) % 255;
-// 	fct->rw = 1;
-// }
-
-void	init_grille(t_fct *fct)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < fct->v_size)
+	if (fct->fract_type == mandelbrot2)
 	{
-		x = 0;
-		while (x < fct->h_size)
-		{
-			fct->grille[y][x].it = 0;
-			fct->grille[y][x].z.r = 0;
-			fct->grille[y][x].z.i = 0;
-			x++;
-		}
-		y++;
+		if (!*it)
+			set_complexe(z, 0, 0);
+		ft_calc_mandelbrot2(z, fct->c, it, fct->precision);
 	}
-}
-
-void	reset_ligne(t_case *cases, int size)
-{
-	int	i;
-
-	i = 0;
-	while (i < size)
+	if (fct->fract_type == mandelbrot3)
 	{
-		cases->it = 0;
-		cases++;
-		i++;
+		if (!*it)
+			set_complexe(z, 0, 0);
+		ft_calc_mandelbrot3(z, fct->c, it, fct->precision);
 	}
 }
 
@@ -64,6 +35,43 @@ void	ft_calc_mandelbrot(t_complexe *z, t_complexe c, unsigned int *it, unsigned 
 		if (z->r * z->r + z->i * z->i > 4)
 			break ;
 		next_mandelbrot(z, c);
+		(*it)++;
+	}
+}
+
+void	next_mandelbrot2(t_complexe *prec, t_complexe c)
+{
+	sq_complexe(prec);
+	sq_complexe(prec);
+	add_complexe(prec, *prec, c);
+}
+
+void	next_mandelbrot3(t_complexe *prec, t_complexe c)
+{
+	sq_complexe(prec);
+	sq_complexe(prec);
+	sq_complexe(prec);
+	add_complexe(prec, *prec, c);
+}
+
+void	ft_calc_mandelbrot2(t_complexe *z, t_complexe c, unsigned int *it, unsigned int it_max)
+{
+	while (*it < it_max)
+	{
+		if (z->r * z->r + z->i * z->i > 4)
+			break ;
+		next_mandelbrot2(z, c);
+		(*it)++;
+	}
+}
+
+void	ft_calc_mandelbrot3(t_complexe *z, t_complexe c, unsigned int *it, unsigned int it_max)
+{
+	while (*it < it_max)
+	{
+		if (z->r * z->r + z->i * z->i > 4)
+			break ;
+		next_mandelbrot3(z, c);
 		(*it)++;
 	}
 }
@@ -101,15 +109,16 @@ void	next_mandelbrot(t_complexe *prec, t_complexe c)
 	add_complexe(prec, *prec, c);
 }
 
-void	print_one_color(void *color)
+void	print_one_color(void *color) //TODELETE
 {
-	printf("(r, g, b) : (%d, %d, %d)\n",
+	printf("(t, r, g, b) : (%d, %d, %d, %d)\n",
+		((t_color *)color)->t,
 		((t_color *)color)->r,
 		((t_color *)color)->g,
 		((t_color *)color)->b);
 }
 
-void	print_colors(t_fct *fct)
+void	print_colors(t_fct *fct) // TO DELETE
 {
 	printf("outside colors : \n");
 	ft_lstiter(fct->col.palette, &print_one_color);
@@ -123,6 +132,7 @@ void	print_info(t_fct *fct) //TO DELETE
 	ft_putstr_fd("Precision : ", 1);
 	ft_putnbr_fd(fct->precision, 1);
 	ft_putendl_fd("", 1);
+	printf("Pat : %.20Lf\n", fct->pat);
 	printf("Position (x,y) : %Lf, %Lf\n", fct->h_s, fct->v_s);
 	print_colors(fct);
 }
