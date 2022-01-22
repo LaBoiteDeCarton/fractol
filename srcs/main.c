@@ -96,8 +96,8 @@ static void	init_arg_fct(int ac, char **av, t_fct *fct)
 		handle_error(ERR_NOARG, fct);
 	if (ac > 3)
 		handle_error(ERR_TOOMUCHARG, fct);
-	put_default_arg(fct);
 	init_first_arg(av[0], fct);
+	put_default_arg(fct);
 	if (ac > 1)
 		init_second_arg(av[1], fct);
 	if (ac > 2)

@@ -9,7 +9,7 @@ void	sub_precision(t_fct *fct)
 
 void	add_precision(t_fct *fct)
 {
-	if (fct->precision < UINT32_MAX)
+	if (fct->precision < INT32_MAX)
 		fct->precision += 1;
 	fct->rw = 1;
 }

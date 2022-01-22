@@ -1,6 +1,6 @@
 #include "fct.h"
 
-void	calc_z_it_value(t_complexe *z, unsigned int *it, t_fct *fct)
+void	calc_z_it_value(t_complexe *z, int *it, t_fct *fct)
 {
 	if (fct->fract_type == mandelbrot)
 	{
@@ -8,19 +8,19 @@ void	calc_z_it_value(t_complexe *z, unsigned int *it, t_fct *fct)
 			set_complexe(z, 0, 0);
 		ft_calc_mandelbrot(z, fct->c, it, fct);
 	}
-	if (fct->fract_type == julia)
+	else if (fct->fract_type == julia)
 	{
 		if (!*it)
 			*z = fct->c;
 		ft_calc_mandelbrot(z, fct->mouse_c, it, fct);
 	}
-	if (fct->fract_type == mandelbrot2)
+	else if (fct->fract_type == mandelbrot2)
 	{
 		if (!*it)
 			set_complexe(z, 0, 0);
 		ft_calc_mandelbrot2(z, fct->c, it, fct);
 	}
-	if (fct->fract_type == mandelbrot3)
+	else if (fct->fract_type == mandelbrot3)
 	{
 		if (!*it)
 			set_complexe(z, 0, 0);
@@ -28,12 +28,12 @@ void	calc_z_it_value(t_complexe *z, unsigned int *it, t_fct *fct)
 	}
 }
 
-void	ft_calc_mandelbrot(t_complexe *z, t_complexe c, unsigned int *it, t_fct *fct)
+void	ft_calc_mandelbrot(t_complexe *z, t_complexe c, int *it, t_fct *fct)
 {
 	long double		tmp;
 	long double		tmp2;
 	long double		tmp3;
-	unsigned int	it_max;
+	int	it_max;
 	unsigned int	escape;
 
 	it_max = fct->precision;
@@ -72,7 +72,7 @@ void	next_mandelbrot3(t_complexe *prec, t_complexe c)
 	add_complexe(prec, *prec, c);
 }
 
-void	ft_calc_mandelbrot2(t_complexe *z, t_complexe c, unsigned int *it, t_fct *fct)
+void	ft_calc_mandelbrot2(t_complexe *z, t_complexe c, int *it, t_fct *fct)
 {
 	while (*it < fct->precision)
 	{
@@ -83,7 +83,7 @@ void	ft_calc_mandelbrot2(t_complexe *z, t_complexe c, unsigned int *it, t_fct *f
 	}
 }
 
-void	ft_calc_mandelbrot3(t_complexe *z, t_complexe c, unsigned int *it, t_fct *fct)
+void	ft_calc_mandelbrot3(t_complexe *z, t_complexe c, int *it, t_fct *fct)
 {
 	while (*it < fct->precision)
 	{
@@ -96,26 +96,29 @@ void	ft_calc_mandelbrot3(t_complexe *z, t_complexe c, unsigned int *it, t_fct *f
 
 void	calc(t_fct *fct)
 {
-	int	x;
-	int	y;
+	t_case	**ligne;
+	t_case	*cell;
 
 	fct->rw = 0;
-	y = 0;
-	while (y < fct->v_size)
+	ligne = fct->grille;
+	fct->c.i = fct->v_s;
+	fct->pixel = 0;
+	while (*ligne)
 	{
-		x = 0;
-		while (x < fct->h_size)
+		cell = *ligne;
+		fct->c.r = fct->h_s;
+		while (cell->it >= 0)
 		{
-			set_complexe(&(fct->c), fct->h_s + x * fct->pat,
-				fct->v_s - y * fct->pat);
 			if (fct->rwa)
-				fct->grille[y][x].it = 0;
-			calc_z_it_value(&(fct->grille[y][x].z), &(fct->grille[y][x].it), fct);
-			fct->pixel = (y * fct->line_length) + (x * 4);
-			ft_findcolor_to_pixel(fct, fct->grille[y][x].it, fct->grille[y][x].z);
-			x++;
+				cell->it = 0;
+			calc_z_it_value(&(cell->z), &(cell->it), fct);
+			ft_findcolor_to_pixel(fct, cell->it, cell->z);
+			fct->c.r += fct->pat;
+			cell++;
+			fct->pixel += 4;
 		}
-		y++;
+		fct->c.i -= fct->pat;
+		ligne++;
 	}
 	fct->rwa = 0;
 	mlx_put_image_to_window(fct->mlx, fct->win, fct->img, 0, 0);

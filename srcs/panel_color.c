@@ -5,7 +5,6 @@ static void	creat_color_inside(t_fct *fct, int r, int g, int b)
 	t_list	*cell;
 	t_color *color;
 
-	color = NULL;
 	color = malloc(sizeof(t_color));
 	if (!color)
 		handle_error(ERR_MALLOC, fct);
@@ -24,12 +23,10 @@ void	addfront_color_palette(t_fct *fct, int r, int g, int b)
 	t_list	*cell;
 	t_color	*col;
 
-	col = NULL;
 	col = malloc(sizeof(t_color));
 	if (!col)
 		handle_error(ERR_MALLOC, fct);
 	put_trgb_color(col, r, g, b);
-	cell = NULL;
 	cell = ft_lstnew(col);;
 	if (!cell)
 	{

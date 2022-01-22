@@ -82,7 +82,7 @@ struct s_complexe
 struct s_case
 {
 	t_complexe		z;
-	unsigned int	it;
+	int				it;
 };
 
 typedef enum s_fract_type
@@ -139,7 +139,7 @@ struct	s_fct
 	short int		v_size;
 	long double		h_s;
 	long double		v_s;
-	unsigned int	precision;
+	int				precision;
 	int				escape;
 	int				lissage;
 	long double		pat;
@@ -177,15 +177,15 @@ void		reset_ligne(t_case *cases, int size);
 void		ft_mandelbrot(t_complexe *z, t_complexe z2);
 int			calc_mandelbrot(t_complexe c, int it);
 void		calc(t_fct *fct);
-void		ft_calc_mandelbrot(t_complexe *z, t_complexe c, unsigned int *it, t_fct *fct);
-void		ft_calc_mandelbrot2(t_complexe *z, t_complexe c, unsigned int *it, t_fct *fct);
-void		ft_calc_mandelbrot3(t_complexe *z, t_complexe c, unsigned int *it, t_fct *fct);
+void		ft_calc_mandelbrot(t_complexe *z, t_complexe c, int *it, t_fct *fct);
+void		ft_calc_mandelbrot2(t_complexe *z, t_complexe c, int *it, t_fct *fct);
+void		ft_calc_mandelbrot3(t_complexe *z, t_complexe c, int *it, t_fct *fct);
 void		next_mandelbrot(t_complexe *prec, t_complexe c);
 void		next_mandelbrot2(t_complexe *prec, t_complexe c);
 void		next_mandelbrot3(t_complexe *prec, t_complexe c);
 void		init_grille(t_fct *fct);
 void		print_info(t_fct *fct);
-void		calc_z_it_value(t_complexe *z, unsigned int *it, t_fct *fct);
+void		calc_z_it_value(t_complexe *z, int *it, t_fct *fct);
 
 //Precisions functions
 
@@ -197,7 +197,7 @@ void		sub_precision(t_fct *fct);
 int			create_trgb(int t, int r, int g, int b);
 //void		change_color_aleatoire(t_fct *fct, t_color *col);
 void		put_trgb_color(t_color *color, int r, int g, int b);
-void		ft_findcolor_to_pixel(t_fct *fct, unsigned int it, t_complexe z);
+void		ft_findcolor_to_pixel(t_fct *fct, int it, t_complexe z);
 void		detsroy_panel_color(t_fct *fct);
 
 //Color panel related functions
