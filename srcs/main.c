@@ -23,6 +23,7 @@ static void	put_default_arg(t_fct *fct)
 	malloc_grille(fct);
 	init_grille(fct);
 	fct->precision = 30;
+	fct->escape = 4;
 	fct->active_mouse = 0;
 	if (fct->fract_type == julia)
 		fct->active_mouse = 1;
@@ -55,16 +56,29 @@ static void	init_first_arg(char *str, t_fct *fct)
 	else if (!ft_strncmp(str, "mandelbrot3", 12))
 		fct->fract_type = mandelbrot3;
 	else
-		handle_error(ERR_FRACTTYPE);
+		handle_error(ERR_FRACTTYPE, fct);
 }
 
 static void init_second_arg(char *str, t_fct *fct)
 {
 	if (!ft_strisdigit(str))
-		handle_error(ERR_PREC_UINT);
+		handle_error(ERR_UINT, fct);
 	if (ft_strlen(str) > 4)
-		handle_error(ERR_PREC_TOOBIG);
+		handle_error(ERR_TOOBIG, fct);
 	fct->precision = ft_atoi(str);
+	if (fct->precision < 0)
+		handle_error(ERR_RANGE, fct);
+}
+
+static void init_third_arg(char *str, t_fct *fct)
+{
+	if (!ft_strisdigit(str))
+		handle_error(ERR_UINT, fct);
+	if (ft_strlen(str) > 4)
+		handle_error(ERR_TOOBIG, fct);
+	fct->precision = ft_atoi(str);
+	if (fct->precision < 0)
+		handle_error(ERR_RANGE, fct);
 }
 
 // static void	init_arg_coord(char *str1, char *str2, char *str3, t_fct *fct)
@@ -79,25 +93,33 @@ static void init_second_arg(char *str, t_fct *fct)
 static void	init_arg_fct(int ac, char **av, t_fct *fct)
 {
 	if (ac <= 0)
-		handle_error(ERR_NOARG);
+		handle_error(ERR_NOARG, fct);
+	if (ac > 3)
+		handle_error(ERR_TOOMUCHARG, fct);
 	put_default_arg(fct);
 	init_first_arg(av[0], fct);
 	if (ac > 1)
 		init_second_arg(av[1], fct);
+	if (ac > 2)
+		init_third_arg(av[2], fct);
 	// if (ac == 3 || ac == 4)
 	// 	handle_error(ERR_COORD2);
 	// if (ac > 4)
 	// 	init_arg_coord(av[2], av[3], av[4], fct);
-	if (ac > 2)
-		handle_error(ERR_TOOMUCHARG);
 }
 
 int	main(int ac, char **av)
 {
 	t_fct	fct;
 
+	fct.mlx = NULL;
+	fct.win = NULL;
+	fct.img = NULL;
+	fct.addr = NULL;
+	fct.col_mod = NULL;
+	fct.grille = NULL;
 	init_arg_fct(ac - 1, av + 1, &fct);
-	fct.mlx = mlx_init();
+	fct.mlx = mlx_init(); //faire des if(!fct.mlx) ??
 	fct.win = mlx_new_window(fct.mlx, fct.h_size, fct.v_size,
 			"fractol - 42 Project");
 	fct.img = mlx_new_image(fct.mlx, fct.h_size, fct.v_size);

@@ -6,7 +6,10 @@ void	zoom_out(t_fct *fct, int x, int y)
 	long double	new_pat;
 	long double	largeur_extrait;
 
-	new_pat = fct->pat * 1.8;
+	if (fct->keys.k_shift2)
+		new_pat = fct->pat * 2.2;
+	else
+		new_pat = fct->pat * 1.1;
 	largeur_extrait = (new_pat - fct->pat) * fct->h_size;
 	perc = (long double)x / fct->h_size;
 	fct->h_s -= perc * largeur_extrait;
@@ -14,8 +17,7 @@ void	zoom_out(t_fct *fct, int x, int y)
 	perc = (long double)y / fct->v_size;
 	fct->v_s += perc * largeur_extrait;
 	fct->pat = new_pat;
-	fct->rw = 1;
-	init_grille(fct);
+	fct->rwa = 1;
 }
 
 void	zoom_in(t_fct *fct, int x, int y)
@@ -24,7 +26,10 @@ void	zoom_in(t_fct *fct, int x, int y)
 	long double	new_pat;
 	long double	largeur_extrait;
 
-	new_pat = fct->pat / 1.8;
+	if (fct->keys.k_shift2)
+		new_pat = fct->pat / 2.2;
+	else
+		new_pat = fct->pat / 1.1;
 	largeur_extrait = (fct->pat - new_pat) * fct->h_size;
 	perc = (long double)x / fct->h_size;
 	fct->h_s += perc * largeur_extrait;
@@ -32,8 +37,7 @@ void	zoom_in(t_fct *fct, int x, int y)
 	perc = (long double)y / fct->v_size;
 	fct->v_s -= perc * largeur_extrait;
 	fct->pat = new_pat;
-	fct->rw = 1;
-	init_grille(fct);
+	fct->rwa = 1;
 }
 
 // void zoom_in(t_fct *fct, int x, int y)

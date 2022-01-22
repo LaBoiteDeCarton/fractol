@@ -6,16 +6,17 @@ void	malloc_grille(t_fct *fct)
 
 	fct->grille = (t_case **)malloc(sizeof(t_case *) * fct->v_size);
 	if (!fct->grille)
-		handle_error(ERR_MALLOC);
+		handle_error(ERR_MALLOC, fct);
 	i = 0;
 	while (i < fct->v_size)
 	{
+		fct->grille[i] = NULL;	
 		fct->grille[i] = (t_case *)malloc(sizeof(t_case) * fct->h_size);
 		if (!fct->grille[i])
 		{
 			while (--i >= 0) //bien verifier que le free fait tout frire
 				free(fct->grille[i]);
-			handle_error(ERR_MALLOC);
+			handle_error(ERR_MALLOC, fct);
 		}
 		i++;
 	}
@@ -46,8 +47,6 @@ void	init_grille(t_fct *fct)
 		while (x < fct->h_size)
 		{
 			fct->grille[y][x].it = 0;
-			fct->grille[y][x].z.r = 0;
-			fct->grille[y][x].z.i = 0;
 			x++;
 		}
 		y++;

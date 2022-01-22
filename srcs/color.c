@@ -61,4 +61,5 @@ void	detsroy_panel_color(t_fct *fct)
 		ft_lstclear(&(fct->col.palette), free);
 	if (fct->col.inside)
 		ft_lstclear(&(fct->col.palette), free);
+	fct->col.count = 0;
 }

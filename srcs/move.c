@@ -5,7 +5,10 @@ void	move_down(t_fct *fct, int y)
 	int		i;
 	t_case	**save;
 
+	save = NULL;
 	save = (t_case **)malloc(sizeof(t_case *) * y);
+	if (!save)
+		handle_error(ERR_MALLOC, fct);
 	fct->v_s -= fct->pat * y;
 	i = 0;
 	while (i < y)
@@ -29,7 +32,10 @@ void	move_up(t_fct *fct, int y)
 	int		i;
 	t_case	**save;
 
+	save = NULL;
 	save = (t_case **)malloc(sizeof(t_case *) * y);
+	if (!save)
+		handle_error(ERR_MALLOC, fct);
 	fct->v_s += fct->pat * y;
 	i = 0;
 	while (i < y)

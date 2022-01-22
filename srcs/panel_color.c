@@ -2,186 +2,90 @@
 
 static void	creat_color_inside(t_fct *fct, int r, int g, int b)
 {
+	t_list	*cell;
 	t_color *color;
 
+	color = NULL;
 	color = malloc(sizeof(t_color));
 	if (!color)
-	{
-		freee(fct);
-		handle_error(ERR_MALLOC);
-	}
+		handle_error(ERR_MALLOC, fct);
 	put_trgb_color(color, r, g, b);
-	fct->col.inside = ft_lstnew(color);
+	cell = ft_lstnew(color);
+	if (!cell)
+	{
+		free(color);
+		handle_error(ERR_MALLOC, fct);
+	}
+	fct->col.inside = cell;
+}
+
+void	addfront_color_palette(t_fct *fct, int r, int g, int b)
+{
+	t_list	*cell;
+	t_color	*col;
+
+	col = NULL;
+	col = malloc(sizeof(t_color));
+	if (!col)
+		handle_error(ERR_MALLOC, fct);
+	put_trgb_color(col, r, g, b);
+	cell = NULL;
+	cell = ft_lstnew(col);;
+	if (!cell)
+	{
+		free(col);
+		handle_error(ERR_MALLOC, fct);
+	}
+	ft_lstadd_front(&(fct->col.palette), cell);
+	fct->col.count++; //attention reinit a 0 a chaque effaement please
 }
 
 static void	create_white_panel(t_fct *fct)
 {
-	t_color	*col;
-
-	col = malloc(sizeof(t_color));
-	if (!col)
-	{
-		freee(fct);
-		handle_error(ERR_MALLOC);
-	}
-	put_trgb_color(col, 255, 255, 255);
-	fct->col.palette = ft_lstnew(col);
-	fct->col.count = 1;
+	addfront_color_palette(fct, 255, 255, 255);
 	creat_color_inside(fct, 0, 0, 0);
 }
 
 static void	create_wtob_panel(t_fct *fct)
 {
-	t_color	*col1;
-	t_color	*col2;
-
-	col1 = malloc(sizeof(t_color));
-	if (!col1)
-	{
-		freee(fct);
-		handle_error(ERR_MALLOC);
-	}
-	col2 = malloc(sizeof(t_color));
-	if (!col2)
-	{
-		free(col1);
-		freee(fct);
-		handle_error(ERR_MALLOC);
-	}
-	put_trgb_color(col1, 255, 255, 255);
-	put_trgb_color(col2, 0, 0, 0);
-	fct->col.palette = ft_lstnew(col1);
-	ft_lstadd_back(&(fct->col.palette), ft_lstnew(col2));
-	fct->col.count = 2;
+	addfront_color_palette(fct, 255, 255, 255);
+	addfront_color_palette(fct, 0, 0, 0);
 	creat_color_inside(fct, 0, 0, 0);
 }
 
 static void	create_ys_panel(t_fct *fct)
 {
-	t_color	*col1;
-	t_color	*col2;
-
-	col1 = malloc(sizeof(t_color));
-	if (!col1)
-	{
-		freee(fct);
-		handle_error(ERR_MALLOC);
-	}
-	col2 = malloc(sizeof(t_color));
-	if (!col2)
-	{
-		free(col1);
-		freee(fct);
-		handle_error(ERR_MALLOC);
-	}
-	put_trgb_color(col1, 54, 3, 0);
-	put_trgb_color(col2, 212, 211, 180);
-	fct->col.palette = ft_lstnew(col1);
-	ft_lstadd_back(&(fct->col.palette), ft_lstnew(col2));
-	fct->col.count = 2;
+	addfront_color_palette(fct, 212, 211, 180);
+	addfront_color_palette(fct, 54, 3, 0);
 	creat_color_inside(fct, 255, 255, 255);
 }
 
 static void	create_med_panel(t_fct *fct)
 {
-	t_color	*col1;
-	t_color	*col2;
-
-	col1 = malloc(sizeof(t_color));
-	if (!col1)
-	{
-		freee(fct);
-		handle_error(ERR_MALLOC);
-	}
-	col2 = malloc(sizeof(t_color));
-	if (!col2)
-	{
-		free(col1);
-		freee(fct);
-		handle_error(ERR_MALLOC);
-	}
-	put_trgb_color(col1, 14, 83, 175);
-	put_trgb_color(col2, 114, 172, 240);
-	fct->col.palette = ft_lstnew(col1);
-	ft_lstadd_back(&(fct->col.palette), ft_lstnew(col2));
-	fct->col.count = 2;
+	addfront_color_palette(fct, 114, 172, 240);
+	addfront_color_palette(fct, 14, 83, 175);
+	creat_color_inside(fct, 255, 255, 255);
 	creat_color_inside(fct, 185, 240, 240);
 }
 
 static void	create_btow_panel(t_fct *fct)
 {
-	t_color	*col1;
-	t_color	*col2;
-
-	col1 = malloc(sizeof(t_color));
-	if (!col1)
-	{
-		freee(fct);
-		handle_error(ERR_MALLOC);
-	}
-	col2 = malloc(sizeof(t_color));
-	if (!col2)
-	{
-		free(col1);
-		freee(fct);
-		handle_error(ERR_MALLOC);
-	}
-	put_trgb_color(col1, 255, 255, 255);
-	put_trgb_color(col2, 0, 0, 0);
-	fct->col.palette = ft_lstnew(col2);
-	ft_lstadd_back(&(fct->col.palette), ft_lstnew(col1));
-	fct->col.count = 2;
+	addfront_color_palette(fct, 0, 0, 0);
+	addfront_color_palette(fct, 255, 255, 255);
 	creat_color_inside(fct, 255, 255, 255);
 }
 
 static void	create_mindf_panel(t_fct *fct)
 {
-	t_color	*col1;
-	t_color	*col2;
-	t_color *col3;
-	t_color *col4;
-	t_color *col5;
-	t_color *col6;
-	t_color *col7;
-	t_color *col8;
-
-	col1 = malloc(sizeof(t_color));
-	if (!col1)
-	{
-		freee(fct);
-		handle_error(ERR_MALLOC);
-	}
-	col2 = malloc(sizeof(t_color));
-	if (!col2)
-	{
-		free(col1);
-		freee(fct);
-		handle_error(ERR_MALLOC);
-	}
-	col3 = malloc(sizeof(t_color));
-	col4 = malloc(sizeof(t_color));
-	col5 = malloc(sizeof(t_color));
-	col6 = malloc(sizeof(t_color));
-	col7 = malloc(sizeof(t_color));
-	col8 = malloc(sizeof(t_color));
-	put_trgb_color(col1, 250, 248, 255);
-	put_trgb_color(col2, 24, 144, 215);
-	put_trgb_color(col3, 101, 82, 175);
-	put_trgb_color(col4, 146, 7, 15);
-	put_trgb_color(col5, 230, 51, 15);
-	put_trgb_color(col6, 217, 240, 15);
-	put_trgb_color(col7, 9, 231, 155);
-	put_trgb_color(col8, 211, 36, 240);
-	fct->col.palette = ft_lstnew(col1);
-	ft_lstadd_back(&(fct->col.palette), ft_lstnew(col2));
-	ft_lstadd_back(&(fct->col.palette), ft_lstnew(col3));
-	ft_lstadd_back(&(fct->col.palette), ft_lstnew(col4));
-	ft_lstadd_back(&(fct->col.palette), ft_lstnew(col5));
-	ft_lstadd_back(&(fct->col.palette), ft_lstnew(col6));
-	ft_lstadd_back(&(fct->col.palette), ft_lstnew(col7));
-	ft_lstadd_back(&(fct->col.palette), ft_lstnew(col8));
-	fct->col.count = 8;
-	creat_color_inside(fct, 251, 96, 115); // faire une affectation simple
+	addfront_color_palette(fct, 250, 248, 255);
+	addfront_color_palette(fct, 24, 144, 21);
+	addfront_color_palette(fct, 101, 82, 175);
+	addfront_color_palette(fct, 146, 7, 15);
+	addfront_color_palette(fct, 230, 51, 15);
+	addfront_color_palette(fct, 217, 240, 15);
+	addfront_color_palette(fct, 9, 231, 155);
+	addfront_color_palette(fct, 211, 36, 240);
+	creat_color_inside(fct, 251, 96, 115);
 }
 
 void	create_panel(t_fct *fct)
@@ -253,17 +157,23 @@ void	panel_next(t_fct *fct)
 void	panel_add_color(t_fct *fct)
 {
 	t_color	*color;
+	t_list	*cell;
 
 	if (!fct->keys.k_space)
 	{
-		color = malloc(sizeof(t_color));
+		color = NULL;
+		color = (t_color *)malloc(sizeof(t_color));
 		if (!color)
-		{
-			freee(fct);
-			handle_error(ERR_MALLOC);
-		}
+			handle_error(ERR_MALLOC, fct);
 		put_trgb_color(color, 255, 255, 255);
-		ft_lstinsert_after(&fct->col_mod, ft_lstnew(color));
+		cell = NULL;
+		cell = ft_lstnew(color);
+		if (!cell)
+		{
+			free(color);
+			handle_error(ERR_MALLOC, fct);
+		}
+		ft_lstinsert_after(&fct->col_mod, cell);
 		fct->col.count++;
 		fct->rw = 1;
 	}

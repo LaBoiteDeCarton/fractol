@@ -73,8 +73,7 @@ int	ft_key_hook(int keycode, t_fct *fct)
 		panel_color_inside(fct);
 	else if (keycode == K_ESC)
 	{
-		mlx_destroy_window(fct->mlx, fct->win);
-		freee(fct);
+		freee(fct); //destroy windows, est-ce que si mlx et win NULL c'est ok?
 		exit(EXIT_SUCCESS);
 	}
 	printf("keycode = '%d'\n", keycode);
@@ -104,8 +103,6 @@ int	ft_key_release(int keycode, t_fct *fct)
 		fct->keys.k_shift = 0;
 	else if (keycode == K_SHIFT2)
 		fct->keys.k_shift2 = 0;
-	else if (keycode == K_I)
-		print_info(fct); // a enlever car printf
 	else if (keycode == K_SPACE && fct->col_panel_active)
 	{
 		fct->col_panel_active = 0;
@@ -138,7 +135,5 @@ int	ft_mouse_hook(int button, int x, int y, t_fct *fct)
 		zoom_in(fct, x, y);
 	else if (button == 5)
 		panel_blue_up(fct);
-	printf("position : (%d,%d)", x, y);
-	printf("%d\n", button);
 	return (0);
 }
