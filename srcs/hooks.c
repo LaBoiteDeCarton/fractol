@@ -89,36 +89,19 @@ int	ft_key_hook(int keycode, t_fct *fct)
 		panel_color_inside(fct);
 	else if (keycode == K_ESC)
 	{
-		freee(fct); //destroy windows, est-ce que si mlx et win NULL c'est ok?
+		freee(fct);
 		exit(EXIT_SUCCESS);
 	}
-	printf("keycode = '%d'\n", keycode);
 	return (0);
 }
 
-int	ft_key_release(int keycode, t_fct *fct)
+static int ft_key_release_actions(int keycode, t_fct *fct)
 {
-	if (keycode == K_M)
-		fct->keys.k_m = 0;
-	else if (keycode == K_P)
-		fct->keys.k_p = 0;
-	else if (keycode == K_L)
+	if (keycode == K_L)
 	{
 		fct->lissage = (fct->lissage + 1) % 2;
 		fct->rw = 1;
 	}
-	else if (keycode == K_A_DOWN)
-		fct->keys.k_a_down = 0;
-	else if (keycode == K_A_LEFT)
-		fct->keys.k_a_left = 0;
-	else if (keycode == K_A_RIGHT)
-		fct->keys.k_a_right = 0;
-	else if (keycode == K_A_UP)
-		fct->keys.k_a_up = 0;
-	else if (keycode == K_SHIFT)
-		fct->keys.k_shift = 0;
-	else if (keycode == K_SHIFT2)
-		fct->keys.k_shift2 = 0;
 	else if (keycode == K_SPACE && fct->col_panel_active)
 	{
 		fct->col_panel_active = 0;
@@ -136,7 +119,27 @@ int	ft_key_release(int keycode, t_fct *fct)
 		switch_palette(fct);
 		create_palette(fct);
 	}
-	return (0);
+}
+
+int	ft_key_release(int keycode, t_fct *fct)
+{
+	if (keycode == K_M)
+		fct->keys.k_m = 0;
+	else if (keycode == K_P)
+		fct->keys.k_p = 0;
+	else if (keycode == K_A_DOWN)
+		fct->keys.k_a_down = 0;
+	else if (keycode == K_A_LEFT)
+		fct->keys.k_a_left = 0;
+	else if (keycode == K_A_RIGHT)
+		fct->keys.k_a_right = 0;
+	else if (keycode == K_A_UP)
+		fct->keys.k_a_up = 0;
+	else if (keycode == K_SHIFT)
+		fct->keys.k_shift = 0;
+	else if (keycode == K_SHIFT2)
+		fct->keys.k_shift2 = 0;
+	return (ft_key_release_actions(keycode, fct));
 }
 
 int	ft_mouse_hook(int button, int x, int y, t_fct *fct)

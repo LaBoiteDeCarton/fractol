@@ -30,7 +30,7 @@ static void	creat_color_inside(t_fct *fct, int r, int g, int b)
 	ft_lstadd_front(&(fct->palette.in), cell);
 }
 
-void	addfront_color_palette(t_fct *fct, int r, int g, int b)
+static void	addfront_color_palette(t_fct *fct, int r, int g, int b)
 {
 	t_list	*cell;
 	t_color	*col;
@@ -114,6 +114,18 @@ void	create_palette(t_fct *fct)
 		create_mindf_palette(fct);
 	fct->palette.count = ft_lstsize(fct->palette.out);
 	fct->rw = 1;
+}
+
+void	detsroy_palette(t_fct *fct)
+{
+	if (fct->palette.out)
+		ft_lstclear(&(fct->palette.out), &free_col);
+	if (fct->palette.in)
+		ft_lstclear(&(fct->palette.in), &free_col);
+	fct->col_mod = NULL;
+	fct->palette.out = NULL;
+	fct->palette.in = NULL;
+	fct->palette.count = 0;
 }
 
 void	switch_palette(t_fct *fct)

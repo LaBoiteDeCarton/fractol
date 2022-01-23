@@ -28,7 +28,7 @@ LIBFLAGS = -Llib/libft -lft -Llib/minilibx_opengl -lmlx -framework OpenGL -frame
 ${NAME}: ${OBJS}
 	make -C ${LFT}
 	make -C ${MLX}
-	gcc ${FLAGS} ${LIBFLAGS} ${OBJS} -o ${NAME} -fsanitize=address
+	gcc ${FLAGS} ${LIBFLAGS} ${OBJS} -o ${NAME}
 
 all: ${NAME}
 

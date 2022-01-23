@@ -64,15 +64,3 @@ void	ft_findcolor_to_pixel(t_fct *fct, int it, t_complexe z)
 	}
 	ft_putcolor_to_pixel(color, fct);
 }
-
-void	detsroy_palette(t_fct *fct)
-{
-	if (fct->palette.out)
-		ft_lstclear(&(fct->palette.out), &free_col);
-	if (fct->palette.in)
-		ft_lstclear(&(fct->palette.in), &free_col);
-	fct->col_mod = NULL;
-	fct->palette.out = NULL;
-	fct->palette.in = NULL;
-	fct->palette.count = 0;
-}

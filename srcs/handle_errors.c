@@ -28,8 +28,8 @@ void	freee(t_fct *fct)
 {
 	if (fct->win)
 	{
-		//mlx_destroy_image(fct->mlx, fct->img);
-		mlx_destroy_window(fct->mlx, fct->win); //checker si on doit dell'image
+		mlx_destroy_image(fct->mlx, fct->img);
+		mlx_destroy_window(fct->mlx, fct->win);
 	}
 	detsroy_palette(fct);
 	if (fct->grille)

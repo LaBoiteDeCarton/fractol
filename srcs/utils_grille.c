@@ -26,11 +26,11 @@ void	malloc_grille(t_fct *fct)
 		fct->grille[i] = (t_case *)malloc(sizeof(t_case) * (fct->h_size + 1));
 		if (!fct->grille[i])
 		{
-			while (--i >= 0) //bien verifier que le free fait tout frire
+			while (--i >= 0)
 				free(fct->grille[i]);
 			handle_error(ERR_MALLOC, fct);
 		}
-		fct->grille[i][fct->h_size].it = -1; //fin du tableau;
+		fct->grille[i][fct->h_size].it = -1;
 		i++;
 	}
 	fct->grille[fct->v_size] = NULL;
