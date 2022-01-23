@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hooks.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dmercadi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/23 16:17:28 by dmercadi          #+#    #+#             */
+/*   Updated: 2022/01/23 16:17:29 by dmercadi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fct.h"
 
 void	check_mouse_change(t_fct *fct)
@@ -34,7 +46,11 @@ int	ft_loop_hook(t_fct *fct)
 	if (fct->keys.k_shift || fct->keys.k_shift2)
 		speed = 10;
 	if (fct->rw || fct->rwa)
+	{
 		calc(fct);
+		fct->rw = 0;
+		fct->rwa = 0;
+	}
 	if (fct->keys.k_p)
 		add_precision(fct);
 	if (fct->keys.k_m)
@@ -117,8 +133,8 @@ int	ft_key_release(int keycode, t_fct *fct)
 		active_color_panel(fct);
 	else if (keycode == K_TAB && !fct->col_panel_active)
 	{
-		switch_color(fct);
-		create_panel(fct);
+		switch_palette(fct);
+		create_palette(fct);
 	}
 	return (0);
 }

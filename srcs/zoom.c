@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   zoom.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dmercadi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/23 16:18:04 by dmercadi          #+#    #+#             */
+/*   Updated: 2022/01/23 16:18:05 by dmercadi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fct.h"
 
 void	zoom_out(t_fct *fct, int x, int y)
@@ -6,10 +18,7 @@ void	zoom_out(t_fct *fct, int x, int y)
 	long double	new_pat;
 	long double	largeur_extrait;
 
-	if (fct->keys.k_shift2)
-		new_pat = fct->pat * 2;
-	else
-		new_pat = fct->pat * 1.5;
+	new_pat = fct->pat * 2;
 	largeur_extrait = (new_pat - fct->pat) * fct->h_size;
 	perc = (long double)x / fct->h_size;
 	fct->h_s -= perc * largeur_extrait;
@@ -26,12 +35,9 @@ void	zoom_in(t_fct *fct, int x, int y)
 	long double	new_pat;
 	long double	largeur_extrait;
 
-	if (fct->keys.k_shift2)
-		new_pat = fct->pat / 2;
-	else
-		new_pat = fct->pat / 1.5;
-	if (fct->v_s + new_pat != fct->v_s &&
-			fct->h_s + new_pat != fct->h_s)
+	new_pat = fct->pat / 2;
+	if (fct->v_s + new_pat != fct->v_s
+		&& fct->h_s + new_pat != fct->h_s)
 	{
 		largeur_extrait = (fct->pat - new_pat) * fct->h_size;
 		perc = (long double)x / fct->h_size;
@@ -162,8 +168,7 @@ void	zoom_in(t_fct *fct, int x, int y)
 // 		{
 // 			save = fct->grille[i];
 // 			fct->grille[i] = fct->grille[(y + i) / 2];
-// 			fct->grille[y / 2 + (i / 2)] = save;
-			
+// 			fct->grille[y / 2 + (i / 2)] = save;	
 // 		}
 // 		i++;
 // 	}

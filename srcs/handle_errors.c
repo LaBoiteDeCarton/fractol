@@ -1,4 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_errors.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dmercadi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/23 16:17:21 by dmercadi          #+#    #+#             */
+/*   Updated: 2022/01/23 16:17:23 by dmercadi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fct.h"
+
+void	free_col(void *col)
+{
+	free((t_color *)col);
+}
 
 void	handle_error(char *err, t_fct *fct)
 {
@@ -9,7 +26,12 @@ void	handle_error(char *err, t_fct *fct)
 
 void	freee(t_fct *fct)
 {
-	mlx_destroy_window(fct->mlx, fct->win); //checker si on doit dell'image
-	detsroy_panel_color(fct);
-	free_grille(fct);
+	if (fct->win)
+	{
+		//mlx_destroy_image(fct->mlx, fct->img);
+		mlx_destroy_window(fct->mlx, fct->win); //checker si on doit dell'image
+	}
+	detsroy_palette(fct);
+	if (fct->grille)
+		free_grille(fct);
 }

@@ -1,35 +1,61 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_strtold.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmercadi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/23 15:38:10 by dmercadi          #+#    #+#             */
-/*   Updated: 2022/01/23 15:38:30 by dmercadi         ###   ########.fr       */
+/*   Created: 2022/01/23 16:17:16 by dmercadi          #+#    #+#             */
+/*   Updated: 2022/01/23 16:17:17 by dmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "fct.h"
 
-int	ft_atoi(const char *str)
+int	ft_strisld(char *str)
 {
-	int	res;
-	int	signe;
-
-	res = 0;
-	signe = 1;
 	while (*str == ' ' || *str == '\r' || *str == '\n'
 		|| *str == '\f' || *str == '\v' || *str == '\t')
 		str++;
 	if (*str == '-')
-		signe = -1;
-	if (*str == '-' || *str == '+')
-		str++;
-	while (ft_isdigit(*str))
+		str++;;
+	while (*str && *str != '.')
 	{
-		res = res * 10 + signe * (*str - '0');
+		if (!ft_isdigit(*str))
+			return (0);
 		str++;
 	}
+	if (*str != '.')
+		return (0);
+	if (*str)
+		str++;
+	while (*str)
+	{
+		if (!ft_isdigit(*str))
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
+long double partiedecimale(char *str)
+{
+	long double res;
+
+	res = 0.;
+	if (!*str)
+		return (res);
+	res = partiedecimale(str + 1);
+	res = res / 10. + (*str - '0') / 10.;
+	return (res);
+}
+
+long double	ft_strtold(char *str)
+{
+	long double res;
+
+	res = 0.;
+	res = ft_atoi(str);
+	res += partiedecimale(ft_strrchr(str, '.') + 1);
 	return (res);
 }

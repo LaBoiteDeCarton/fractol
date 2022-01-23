@@ -6,14 +6,14 @@
 /*   By: dmercadi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:25:35 by dmercadi          #+#    #+#             */
-/*   Updated: 2021/03/24 12:34:16 by dmercadi         ###   ########.fr       */
+/*   Updated: 2022/01/23 15:43:26 by dmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 
-void ft_lstinsert_after(t_list **alst, t_list *new)
+void	ft_lstinsert_after(t_list **alst, t_list *new)
 {
 	if (*alst == NULL)
 		*alst = new;
@@ -37,14 +37,17 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
 	t_list	*next_temp;
 
-	while (*lst)
+	if (lst)
 	{
-		next_temp = (*lst)->next;
-		ft_lstdelone(*lst, del);
-		*lst = next_temp;
+		while (*lst)
+		{
+			next_temp = (*lst)->next;
+			ft_lstdelone(*lst, del);
+			*lst = next_temp;
+		}
+		free(*lst);
+		*lst = NULL;
 	}
-	free(*lst);
-	*lst = NULL;
 	lst = NULL;
 }
 

@@ -1,9 +1,16 @@
-#include "fct.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dmercadi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/23 16:16:50 by dmercadi          #+#    #+#             */
+/*   Updated: 2022/01/23 16:16:53 by dmercadi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
+#include "fct.h"
 
 void	put_trgb_color(t_color *color, int r, int g, int b)
 {
@@ -28,43 +35,44 @@ void	ft_findcolor_to_pixel(t_fct *fct, int it, t_complexe z)
 {
 	t_color	color;
 	t_color	*from;
-	t_color	*to;
 	t_list	*tmp;
 	double	i;
 	double	ecarti;
 
 	if (it >= fct->precision)
-		color = *(t_color *)(fct->col.inside->content);
-	else if (fct->col.count == 1)
-		color = *(t_color *)(fct->col.palette->content);
+		color = *(t_color *)(fct->palette.in->content);
+	else if (fct->palette.count == 1)
+		color = *(t_color *)(fct->palette.out->content);
 	else
 	{
 		i = it;
 		if (fct->lissage)
 			i = it + 1.0 - log(log2(sqrtl(z.r * z.r + z.i * z.i)));
-		tmp = fct->col.palette;
-		ecarti = (double)fct->precision / (double)(fct->col.count - 1);
+		tmp = fct->palette.out;
+		ecarti = (double)fct->precision / (double)(fct->palette.count - 1);
 		while (i > ecarti)
 		{
 			tmp = tmp->next;
 			i -= ecarti;
 		}
 		from = (t_color *)tmp->content;
-		to = (t_color *)tmp->next->content;
 		i /= ecarti;
-		color.r = from->r + (to->r - from->r) * i;
-		color.g = from->g + (to->g - from->g) * i;
-		color.b = from->b + (to->b - from->b) * i;
+		color.r = from->r + (((t_color *)tmp->next->content)->r - from->r) * i;
+		color.g = from->g + (((t_color *)tmp->next->content)->g - from->g) * i;
+		color.b = from->b + (((t_color *)tmp->next->content)->b - from->b) * i;
 		color.t = 0;
 	}
 	ft_putcolor_to_pixel(color, fct);
 }
 
-void	detsroy_panel_color(t_fct *fct)
+void	detsroy_palette(t_fct *fct)
 {
-	if (fct->col.palette)
-		ft_lstclear(&(fct->col.palette), free);
-	if (fct->col.inside)
-		ft_lstclear(&(fct->col.palette), free);
-	fct->col.count = 0;
+	if (fct->palette.out)
+		ft_lstclear(&(fct->palette.out), &free_col);
+	if (fct->palette.in)
+		ft_lstclear(&(fct->palette.in), &free_col);
+	fct->col_mod = NULL;
+	fct->palette.out = NULL;
+	fct->palette.in = NULL;
+	fct->palette.count = 0;
 }

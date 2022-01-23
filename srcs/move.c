@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dmercadi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/23 16:17:39 by dmercadi          #+#    #+#             */
+/*   Updated: 2022/01/23 16:17:40 by dmercadi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fct.h"
 
 void	move_down(t_fct *fct, int y)
@@ -16,7 +28,8 @@ void	move_down(t_fct *fct, int y)
 		save[i] = fct->grille[i];
 		i++;
 	}
-	ft_memmove(fct->grille, fct->grille + y, sizeof(t_case **) * (fct->v_size - y));
+	ft_memmove(fct->grille, fct->grille + y,
+		sizeof(t_case **) * (fct->v_size - y));
 	i = 0;
 	while (i < y)
 	{
@@ -24,6 +37,7 @@ void	move_down(t_fct *fct, int y)
 		reset_ligne(fct->grille[fct->v_size - 1 - i], fct->h_size);
 		i++;
 	}
+	free(save);
 	fct->rw = 1;
 }
 
@@ -43,7 +57,8 @@ void	move_up(t_fct *fct, int y)
 		save[i] = fct->grille[fct->v_size - 1 - i];
 		i++;
 	}
-	ft_memmove(fct->grille + y, fct->grille, sizeof(t_case **) * (fct->v_size - y));
+	ft_memmove(fct->grille + y, fct->grille,
+		sizeof(t_case **) * (fct->v_size - y));
 	i = 0;
 	while (i < y)
 	{
@@ -51,6 +66,7 @@ void	move_up(t_fct *fct, int y)
 		reset_ligne(fct->grille[i], fct->h_size);
 		i++;
 	}
+	free(save);
 	fct->rw = 1;
 }
 
@@ -66,7 +82,7 @@ void	move_left(t_fct *fct, int speed)
 		j = fct->h_size - 1;
 		while (j >= speed)
 		{
-			fct->grille[i][j] = fct->grille[i][j - speed]; 
+			fct->grille[i][j] = fct->grille[i][j - speed];
 			j--;
 		}
 		while (j >= 0)

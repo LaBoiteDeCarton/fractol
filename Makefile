@@ -2,7 +2,7 @@ NAME = fractol
 S_DIR = srcs
 H_DIR = include
 SRCS_FILES = main.c \
-				complexe.c \
+				parse.c \
 				fct.c \
 				handle_errors.c \
 				hooks.c \
@@ -10,11 +10,13 @@ SRCS_FILES = main.c \
 				zoom.c \
 				precision.c \
 				color.c \
+				palette.c \
 				panel_color.c \
-				utils_grille.c
+				utils_grille.c \
+				complexe.c
 SRCS = $(addprefix ${S_DIR}/, ${SRCS_FILES})
 OBJS = ${SRCS:.c=.o}
-FLAGS = -Wall -Wextra -Werror -I ${H_DIR}
+FLAGS = -I ${H_DIR} #-Wall -Wextra -Werror 
 MLX = lib/minilibx_opengl
 LFT = lib/libft
 LIBFLAGS = -Llib/libft -lft -Llib/minilibx_opengl -lmlx -framework OpenGL -framework AppKit
@@ -26,7 +28,7 @@ LIBFLAGS = -Llib/libft -lft -Llib/minilibx_opengl -lmlx -framework OpenGL -frame
 ${NAME}: ${OBJS}
 	make -C ${LFT}
 	make -C ${MLX}
-	gcc ${FLAGS} ${LIBFLAGS} ${OBJS} -o ${NAME}
+	gcc ${FLAGS} ${LIBFLAGS} ${OBJS} -o ${NAME} -fsanitize=address
 
 all: ${NAME}
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fct.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dmercadi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/23 16:16:25 by dmercadi          #+#    #+#             */
+/*   Updated: 2022/01/23 16:16:29 by dmercadi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FCT_H
 # define FCT_H
 
@@ -11,7 +23,7 @@
 # define ERR_MALLOC "We got some trouble to malloc capitain"
 # define ERR_FRACTTYPE "Never heard about that fractal before"
 # define ERR_BAD2ARG "The precision should be only digits, like '42'"
-# define ERR_TOOMUCHARG "Wait, you talk too much, tell me only the fractal name please"
+# define ERR_TOOMUCHARG "Wait, you talk too much, give me the fractal name please"
 # define ERR_UINT "numerical arguments type : <unsigned int>"
 # define ERR_TOOBIG "numerical argument value is too big, we dont have eternity"
 # define ERR_RANGE "be positive, numerical arguments should be positive too"
@@ -68,8 +80,8 @@ typedef enum s_col_set_type
 
 struct	s_col
 {
-	t_list	*palette;
-	t_list	*inside;
+	t_list	*out;
+	t_list	*in;
 	int		count;
 };
 
@@ -106,8 +118,8 @@ struct s_key_stat
 	int	k_i;
 	int	k_shift;
 	int	k_shift2;
-	int k_space;
-	int k_t;
+	int	k_space;
+	int	k_t;
 };
 
 struct	s_fct
@@ -117,15 +129,14 @@ struct	s_fct
 	t_case			**grille;
 	t_complexe		c;
 	t_complexe		mouse_c;
-	t_col			col;
-	t_color			inside;
+	t_col			palette;
 	t_list			*col_mod;
 	t_col_set_type	color_set;
 	int				col_panel_active;
 	int				active_mouse;
 	int				m_x;
 	int				m_y;
-	int				rw; //redraw
+	int				rw;
 	int				rwa;
 	int				pixel;
 	void			*mlx;
@@ -145,46 +156,27 @@ struct	s_fct
 	long double		pat;
 };
 
-//Complexe manipulation
-void		add_complexe(t_complexe *z1, t_complexe z2, t_complexe z3);
-void		sub_complexe(t_complexe *z, t_complexe z1, t_complexe z2);
-void		sq_complexe(t_complexe *z);
-void		mult_complexe(t_complexe *z, t_complexe z1, t_complexe z2);
-void		set_complexe(t_complexe *z, long double reel, long double img);
-long double	mod_sq_complexe(t_complexe z);
-long double	mod_complexe(t_complexe z);
+/* parse.c */
+void		init_arg_fct(int ac, char **av, t_fct *fct);
 
 //Error handler and free functions
 void		handle_error(char *err, t_fct *fct);
+void		free_col(void *col);
 void		freee(t_fct *fct);
 
 //Grille manipulation
-
 void		malloc_grille(t_fct *fct);
 void		free_grille(t_fct *fct);
 void		init_grille(t_fct *fct);
 void		reset_ligne(t_case *cases, int size);
 
-//ld functions
-
-int			ft_strisld(char *str);
-long double	ft_strtold(char *str);
-
 //Fractale calc and display functions
-
-void		display(t_fct *fractale);
 void		reset_ligne(t_case *cases, int size);
-void		ft_mandelbrot(t_complexe *z, t_complexe z2);
-int			calc_mandelbrot(t_complexe c, int it);
 void		calc(t_fct *fct);
-void		ft_calc_mandelbrot(t_complexe *z, t_complexe c, int *it, t_fct *fct);
-void		ft_calc_mandelbrot2(t_complexe *z, t_complexe c, int *it, t_fct *fct);
-void		ft_calc_mandelbrot3(t_complexe *z, t_complexe c, int *it, t_fct *fct);
-void		next_mandelbrot(t_complexe *prec, t_complexe c);
-void		next_mandelbrot2(t_complexe *prec, t_complexe c);
-void		next_mandelbrot3(t_complexe *prec, t_complexe c);
+void		calc_mandelbrot(t_complexe *z, t_complexe c, int *it, t_fct *fct);
+void		calc_mandelbrot2(t_complexe *z, t_complexe c, int *it, t_fct *fct);
+void		calc_mandelbrot3(t_complexe *z, t_complexe c, int *it, t_fct *fct);
 void		init_grille(t_fct *fct);
-void		print_info(t_fct *fct);
 void		calc_z_it_value(t_complexe *z, int *it, t_fct *fct);
 
 //Precisions functions
@@ -198,12 +190,12 @@ int			create_trgb(int t, int r, int g, int b);
 //void		change_color_aleatoire(t_fct *fct, t_color *col);
 void		put_trgb_color(t_color *color, int r, int g, int b);
 void		ft_findcolor_to_pixel(t_fct *fct, int it, t_complexe z);
-void		detsroy_panel_color(t_fct *fct);
+void		detsroy_palette(t_fct *fct);
 
 //Color panel related functions
 
-void		create_panel(t_fct *fct);
-void		switch_color(t_fct *fct);
+void		create_palette(t_fct *fct);
+void		switch_palette(t_fct *fct);
 void		active_color_panel(t_fct *fct);
 void		panel_add_color(t_fct *fct);
 void		panel_next(t_fct *fct);
@@ -226,5 +218,14 @@ int			ft_loop_hook(t_fct *fct);
 int			ft_key_hook(int keycode, t_fct *fct);
 int			ft_key_release(int keycode, t_fct *fct);
 int			ft_mouse_hook(int button, int x, int y, t_fct *fct);
+
+//Complexe manipulation
+void		add_complexe(t_complexe *z1, t_complexe z2, t_complexe z3);
+void		sub_complexe(t_complexe *z, t_complexe z1, t_complexe z2);
+void		sq_complexe(t_complexe *z);
+void		mult_complexe(t_complexe *z, t_complexe z1, t_complexe z2);
+void		set_complexe(t_complexe *z, long double reel, long double img);
+long double	mod_sq_complexe(t_complexe z);
+long double	mod_complexe(t_complexe z);
 
 #endif
