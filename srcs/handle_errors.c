@@ -9,7 +9,7 @@ void	handle_error(char *err, t_fct *fct)
 
 void	freee(t_fct *fct)
 {
-	mlx_destroy_window(fct->mlx, fct->win);
+	mlx_destroy_window(fct->mlx, fct->win); //checker si on doit dell'image
 	detsroy_panel_color(fct);
 	free_grille(fct);
 }

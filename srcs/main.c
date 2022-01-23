@@ -108,6 +108,22 @@ static void	init_arg_fct(int ac, char **av, t_fct *fct)
 	// 	init_arg_coord(av[2], av[3], av[4], fct);
 }
 
+void	start_mlx(t_fct *fct)
+{
+	fct->mlx = mlx_init(); //faire des if(!fct->mlx) ??
+	if (!fct->mlx)
+		handle_error(ERR_MALLOC, fct);
+	fct->win = mlx_new_window(fct->mlx, fct->h_size, fct->v_size,
+			"fractol - 42 Project");
+	if (!fct->win)
+		handle_error(ERR_MALLOC, fct);
+	fct->img = mlx_new_image(fct->mlx, fct->h_size, fct->v_size);
+	if (!fct->img)
+		handle_error(ERR_MALLOC, fct);
+	fct->addr = mlx_get_data_addr(fct->img, &fct->bits_per_pixel, &fct->line_length,
+			&fct->endian);
+}
+
 int	main(int ac, char **av)
 {
 	t_fct	fct;
@@ -119,12 +135,7 @@ int	main(int ac, char **av)
 	fct.col_mod = NULL;
 	fct.grille = NULL;
 	init_arg_fct(ac - 1, av + 1, &fct);
-	fct.mlx = mlx_init(); //faire des if(!fct.mlx) ??
-	fct.win = mlx_new_window(fct.mlx, fct.h_size, fct.v_size,
-			"fractol - 42 Project");
-	fct.img = mlx_new_image(fct.mlx, fct.h_size, fct.v_size);
-	fct.addr = mlx_get_data_addr(fct.img, &fct.bits_per_pixel, &fct.line_length,
-			&fct.endian);
+	start_mlx(&fct);
 	mlx_hook(fct.win, 2, 1L << 0, ft_key_hook, &fct);
 	mlx_hook(fct.win, 3, 1L << 1, ft_key_release, &fct);
 	mlx_mouse_hook(fct.win, ft_mouse_hook, &fct);
