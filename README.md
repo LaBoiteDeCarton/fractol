@@ -10,7 +10,7 @@ $ make
 ## Usage
 Commande prototype : ./fractol fractalname precision  
 fractalname : julia / mandelbrot / mandelbrot2 / mandelbrot3  
-precision *unsigned int*: maximum iteration for the complexe sequence
+precision *unsigned int*: maximum iteration for the complexe sequence  
 example  
 ```
 $ ./fractol julia 40
