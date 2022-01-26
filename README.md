@@ -1,4 +1,4 @@
-[-](https://raw.githubusercontent.com/LaBoiteDeCarton/fractol/master/screenshots/Capture%20d%E2%80%99%C3%A9cran%202022-01-26%20%C3%A0%2018.57.57.png)
+[-](screenshots/Capture d’écran 2022-01-26 à 18.57.57.png)
 # Fractol - Fractal rendering with mlx
 ***
 ## Installation
