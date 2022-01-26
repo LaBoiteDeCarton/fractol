@@ -8,24 +8,26 @@ $ make
 ```
 ***
 ## Usage
-Commande prototype : ./fractol <fractal-type> <prec:unsigned int>  
-<fractal-type> - julia:mandelbrot:mandelbrot2:mandelbrot3  
-<prec> - complexe sequence max iteration"  
+Commande prototype : ./fractol fractalname precision  
+fractalname : julia / mandelbrot / mandelbrot2 / mandelbrot3  
+precision *unsigned int*: maximum iteration for the complexe sequence
 example  
 ```
 $ ./fractol julia 40
 ```
-
+***
 ## Controls
+__Basics__
 MOVE : Key Arrows  
 FAST MOVE : Shift + Key Arrows  
 ZOOM : Mouse Scroll  
 ADD PRECISION : Press 'P'  
 LESS PRECISIONS : Press ':'  
 ON/OFF COLOR MENU : Press 'C'  
-ON/OFF SMOOTH : Press 'L'  
+ON/OFF SMOOTH : Press 'L' 
+FIXE THE COMPLEXE VALUE : *only for Julia fractal* Mouse Left Click
 ***
-<Inside the color menu>  
+__Inside the color menu__  
 Press 1 to select previous color  
 Press 2 to select next color  
 Press 3 to add a new color  
