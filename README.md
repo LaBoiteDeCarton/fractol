@@ -1,4 +1,4 @@
-[Beau fractal](https://raw.githubusercontent.com/LaBoiteDeCarton/fractol/master/screenshots/Capture%20d%E2%80%99%C3%A9cran%202022-01-26%20%C3%A0%2018.57.57.png)
+[Beau fractal](/screenshots/Capture%20d%E2%80%99%C3%A9cran%202022-01-26%20%C3%A0%2018.57.57.png?raw=true)
 # Fractol - Fractal rendering with mlx
 ***
 ## Installation
