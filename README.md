@@ -1,4 +1,3 @@
-[-](screenshots/Capture d’écran 2022-01-26 à 18.57.57.png)
 # Fractol - Fractal rendering with mlx
 ***
 ## Installation
