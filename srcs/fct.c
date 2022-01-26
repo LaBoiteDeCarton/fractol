@@ -46,15 +46,13 @@ void	calc_mandelbrot(t_complexe *z, t_complexe c, int *it, t_fct *fct)
 	long double		tmp2;
 	long double		tmp3;
 	int				it_max;
-	unsigned int	escape;
 
 	it_max = fct->precision;
-	escape = fct->escape;
 	while (*it < it_max)
 	{
 		tmp2 = z->r * z->r;
 		tmp3 = z->i * z->i;
-		if (tmp2 + tmp3 > escape)
+		if (tmp2 + tmp3 > 4)
 			break ;
 		tmp = z->r;
 		z->r = tmp2 - tmp3 + c.r;
@@ -69,15 +67,13 @@ void	calc_mandelbrot2(t_complexe *z, t_complexe c, int *it, t_fct *fct)
 	long double		tmp2;
 	long double		tmp3;
 	int				it_max;
-	unsigned int	escape;
 
 	it_max = fct->precision;
-	escape = fct->escape;
 	while (*it < it_max)
 	{
 		tmp2 = z->r * z->r;
 		tmp3 = z->i * z->i;
-		if (tmp2 + tmp3 > escape)
+		if (tmp2 + tmp3 > 4)
 			break ;
 		tmp = z->r;
 		z->r = tmp2 - tmp3;
@@ -95,15 +91,13 @@ void	calc_mandelbrot3(t_complexe *z, t_complexe c, int *it, t_fct *fct)
 	long double		tmp2;
 	long double		tmp3;
 	int				it_max;
-	unsigned int	escape;
 
 	it_max = fct->precision;
-	escape = fct->escape;
 	while (*it < it_max)
 	{
 		tmp2 = z->r * z->r;
 		tmp3 = z->i * z->i;
-		if (tmp2 + tmp3 > escape)
+		if (tmp2 + tmp3 > 4)
 			break ;
 		tmp = z->r;
 		z->r = tmp2 - tmp3;
@@ -135,7 +129,7 @@ void	calc(t_fct *fct)
 			if (fct->rwa)
 				cell->it = 0;
 			calc_z_it_value(&(cell->z), &(cell->it), fct);
-			ft_findcolor_to_pixel(fct, cell->it, cell->z);
+			ft_findcolor_to_pixel(fct, (double)cell->it, cell->z);
 			fct->c.r += fct->pat;
 			cell++;
 			fct->pixel += 4;
@@ -144,4 +138,5 @@ void	calc(t_fct *fct)
 		ligne++;
 	}
 	mlx_put_image_to_window(fct->mlx, fct->win, fct->img, 0, 0);
+	affiche_panel(fct);
 }

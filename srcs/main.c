@@ -14,6 +14,23 @@
 #include "mlx.h"
 #include "libft.h"
 
+static void controls()
+{
+	printf("\n---controls---\n");
+	printf("MOVE : Key Arrows\nFAST MOVE : Shift + Key Arrows\n");
+	printf("ZOOM : Mouse Scroll\nADD PRECISION : Press 'P'\n");
+	printf("LESS PRECISIONS : Press ':'\nON/OFF COLOR MENU : Press 'C'\n");
+	printf("ON/OFF SMOOTH : Press 'L'\n");
+	printf("\n---Inside the color menu---\n");
+	printf("Press 1 to select previous color\n");
+	printf("Press 2 to select next color\n");
+	printf("Press 3 to add a new color\n");
+	printf("HOLD the space bar to select the color inside the fractal\n");
+	printf("Move your mouse horizontally to change R value of the color\n");
+	printf("Move your mouse vertically to change G value of the color\n");
+	printf("Scroll your mouse up and down to change B value of the color\n\n");
+}
+
 static void	start_mlx(t_fct *fct)
 {
 	fct->mlx = mlx_init();
@@ -40,6 +57,7 @@ int	main(int ac, char **av)
 	mlx_hook(fct.win, 3, 1L << 1, ft_key_release, &fct);
 	mlx_mouse_hook(fct.win, ft_mouse_hook, &fct);
 	mlx_loop_hook(fct.mlx, ft_loop_hook, &fct);
+	controls();
 	mlx_loop(fct.mlx);
 	return (0);
 }

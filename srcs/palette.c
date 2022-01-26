@@ -113,6 +113,7 @@ void	create_palette(t_fct *fct)
 	if (fct->color_set == mindf)
 		create_mindf_palette(fct);
 	fct->palette.count = ft_lstsize(fct->palette.out);
+	fct->i_cm = 0;
 	fct->rw = 1;
 }
 
@@ -142,6 +143,7 @@ void	switch_palette(t_fct *fct)
 		fct->color_set = mindf;
 	else if (fct->color_set == mindf)
 		fct->color_set = white;
+	create_palette(fct);
 }
 
 // void panel_color_aleatoire(t_fct *fct, t_color *col)

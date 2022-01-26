@@ -13,10 +13,12 @@ SRCS_FILES = main.c \
 				palette.c \
 				panel_color.c \
 				utils_grille.c \
-				complexe.c
+				complexe.c \
+				lst_utils.c \
+				mousemove.c
 SRCS = $(addprefix ${S_DIR}/, ${SRCS_FILES})
 OBJS = ${SRCS:.c=.o}
-FLAGS = -I ${H_DIR} #-Wall -Wextra -Werror 
+FLAGS = -I ${H_DIR} -Wall -Wextra -Werror 
 MLX = lib/minilibx_opengl
 LFT = lib/libft
 LIBFLAGS = -Llib/libft -lft -Llib/minilibx_opengl -lmlx -framework OpenGL -framework AppKit
@@ -28,7 +30,7 @@ LIBFLAGS = -Llib/libft -lft -Llib/minilibx_opengl -lmlx -framework OpenGL -frame
 ${NAME}: ${OBJS}
 	make -C ${LFT}
 	make -C ${MLX}
-	gcc ${FLAGS} ${LIBFLAGS} ${OBJS} -o ${NAME}
+	gcc ${FLAGS} ${LIBFLAGS} ${OBJS} -o ${NAME} -g -fsanitize=address
 
 all: ${NAME}
 

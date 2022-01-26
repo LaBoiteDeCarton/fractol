@@ -12,32 +12,6 @@
 
 #include "fct.h"
 
-void	check_mouse_change(t_fct *fct)
-{
-	int	x;
-	int	y;
-
-	mlx_mouse_get_pos(fct->win, &x, &y);
-	x = x * (x > 0);
-	x = x * (x < fct->h_size) + fct->h_size * (x > fct->h_size);
-	y = y * (y > 0);
-	y = y * (y < fct->v_size) + fct->v_size * (y > fct->v_size);
-	if (fct->active_mouse && (fct->m_x != x || fct->m_y != y))
-	{
-		fct->rwa = 1;
-		set_complexe(&fct->mouse_c, fct->h_s + fct->m_x * fct->pat,
-			fct->v_s - fct->m_y * fct->pat);
-	}
-	else if (fct->col_panel_active && (fct->m_x != x || fct->m_y != y))
-	{
-		((t_color *)(fct->col_mod)->content)->r = x * 255 / fct->h_size;
-		((t_color *)(fct->col_mod)->content)->g = y * 255 / fct->v_size;
-		fct->rw = 1;
-	}
-	fct->m_x = x;
-	fct->m_y = y;
-}
-
 int	ft_loop_hook(t_fct *fct)
 {
 	int	speed;
@@ -95,30 +69,29 @@ int	ft_key_hook(int keycode, t_fct *fct)
 	return (0);
 }
 
-static int ft_key_release_actions(int keycode, t_fct *fct)
+static void ft_key_release_actions(int keycode, t_fct *fct)
 {
 	if (keycode == K_L)
-	{
 		fct->lissage = (fct->lissage + 1) % 2;
-		fct->rw = 1;
-	}
 	else if (keycode == K_SPACE && fct->col_panel_active)
 	{
 		fct->col_panel_active = 0;
 		fct->keys.k_space = 0;
 		active_color_panel(fct);
 	}
+	else if (keycode == K_1 && fct->col_panel_active)
+		panel_prev(fct);
 	else if (keycode == K_2 && fct->col_panel_active)
 		panel_next(fct);
 	else if (keycode == K_3 && fct->col_panel_active)
 		panel_add_color(fct);
+	else if (keycode == K_4 && fct->col_panel_active)
+		panel_del_color(fct);
 	else if (keycode == K_C)
 		active_color_panel(fct);
 	else if (keycode == K_TAB && !fct->col_panel_active)
-	{
 		switch_palette(fct);
-		create_palette(fct);
-	}
+	fct->rw = 1;
 }
 
 int	ft_key_release(int keycode, t_fct *fct)
@@ -139,7 +112,8 @@ int	ft_key_release(int keycode, t_fct *fct)
 		fct->keys.k_shift = 0;
 	else if (keycode == K_SHIFT2)
 		fct->keys.k_shift2 = 0;
-	return (ft_key_release_actions(keycode, fct));
+	ft_key_release_actions(keycode, fct);
+	return (0);
 }
 
 int	ft_mouse_hook(int button, int x, int y, t_fct *fct)

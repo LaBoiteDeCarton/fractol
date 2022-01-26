@@ -21,7 +21,6 @@ static void	put_default_arg(t_fct *fct)
 	malloc_grille(fct);
 	init_grille(fct);
 	fct->precision = 30;
-	fct->escape = 4;
 	fct->active_mouse = 0;
 	if (fct->fract_type == julia)
 		fct->active_mouse = 1;
@@ -29,10 +28,11 @@ static void	put_default_arg(t_fct *fct)
 	fct->m_y = 500;
 	fct->rw = 1;
 	fct->rwa = 0;
-	fct->h_s = -2.25;
-	fct->v_s = 1.25;
+	fct->h_s = -2.25 + 0.25 * (fct->fract_type == julia);
+	fct->v_s = 1.25 + 0.1 * (fct->fract_type == julia);
 	fct->color_set = white;
 	fct->lissage = 1;
+	fct->i_cm = 0;
 	create_palette(fct);
 	fct->col_panel_active = 0;
 	init_keys(fct);
@@ -55,26 +55,18 @@ static void	init_first_arg(char *str, t_fct *fct)
 		handle_error(ERR_FRACTTYPE, fct);
 }
 
-static void	init_second_arg(char *str, t_fct *fct)
+static int	parse_intarg(char *str, t_fct *fct)
 {
-	if (!ft_strisdigit(str))
-		handle_error(ERR_UINT, fct);
-	if (ft_strlen(str) > 4)
-		handle_error(ERR_TOOBIG, fct);
-	fct->precision = ft_atoi(str);
-	if (fct->precision < 0)
-		handle_error(ERR_RANGE, fct);
-}
+	int ret;
 
-static void	init_third_arg(char *str, t_fct *fct)
-{
 	if (!ft_strisdigit(str))
 		handle_error(ERR_UINT, fct);
 	if (ft_strlen(str) > 4)
 		handle_error(ERR_TOOBIG, fct);
-	fct->precision = ft_atoi(str);
-	if (fct->precision < 0)
+	ret = ft_atoi(str);
+	if (ret < 0)
 		handle_error(ERR_RANGE, fct);
+	return (ret);
 }
 
 void	init_arg_fct(int ac, char **av, t_fct *fct)
@@ -89,12 +81,10 @@ void	init_arg_fct(int ac, char **av, t_fct *fct)
 	fct->palette.out = NULL;
 	if (ac <= 0)
 		handle_error(ERR_NOARG, fct);
-	if (ac > 3)
+	if (ac > 2)
 		handle_error(ERR_TOOMUCHARG, fct);
 	init_first_arg(av[0], fct);
 	put_default_arg(fct);
 	if (ac > 1)
-		init_second_arg(av[1], fct);
-	if (ac > 2)
-		init_third_arg(av[2], fct);
+		fct->precision = parse_intarg(av[1], fct);
 }

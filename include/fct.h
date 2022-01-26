@@ -18,7 +18,9 @@
 # include <math.h>
 # include "libft.h"
 # include "mlx.h"
-# define EXEC_PROTO "Usage : fct <fractal-type> <prec:unsigned int> <escape:unsigned int>"
+# define EXEC_PROTO "Usage : ./fractol <fractal-type> <prec:unsigned int>"
+# define EXEC_PROTO2 "<fractal-type> - julia:mandelbrot:mandelbrot2:mandelbrot3"
+# define EXEC_PROTO3 "<prec> - complexe sequence max iteration"
 # define ERR_NOARG "Please enter some arguments"
 # define ERR_MALLOC "We got some trouble to malloc capitain"
 # define ERR_FRACTTYPE "Never heard about that fractal before"
@@ -130,7 +132,8 @@ struct	s_fct
 	t_complexe		c;
 	t_complexe		mouse_c;
 	t_col			palette;
-	t_list			*col_mod;
+	t_color			*col_mod;
+	int				i_cm;
 	t_col_set_type	color_set;
 	int				col_panel_active;
 	int				active_mouse;
@@ -151,7 +154,6 @@ struct	s_fct
 	long double		h_s;
 	long double		v_s;
 	int				precision;
-	int				escape;
 	int				lissage;
 	long double		pat;
 };
@@ -187,18 +189,23 @@ void		sub_precision(t_fct *fct);
 //Color related functions
 
 int			create_trgb(int t, int r, int g, int b);
+t_color		new_color(int r, int g, int b);
+void		ft_putcolor_to_pixel(t_color color, char *addr, int pixel);
 //void		change_color_aleatoire(t_fct *fct, t_color *col);
 void		put_trgb_color(t_color *color, int r, int g, int b);
-void		ft_findcolor_to_pixel(t_fct *fct, int it, t_complexe z);
+void		ft_findcolor_to_pixel(t_fct *fct, double it, t_complexe z);
 void		detsroy_palette(t_fct *fct);
 
 //Color panel related functions
 
+void		affiche_panel(t_fct *fct);
 void		create_palette(t_fct *fct);
 void		switch_palette(t_fct *fct);
 void		active_color_panel(t_fct *fct);
 void		panel_add_color(t_fct *fct);
+void		panel_del_color(t_fct *fct);
 void		panel_next(t_fct *fct);
+void		panel_prev(t_fct *fct);
 void		panel_blue_down(t_fct *fct);
 void		panel_blue_up(t_fct *fct);
 void		panel_color_inside(t_fct *fct);
@@ -218,6 +225,7 @@ int			ft_loop_hook(t_fct *fct);
 int			ft_key_hook(int keycode, t_fct *fct);
 int			ft_key_release(int keycode, t_fct *fct);
 int			ft_mouse_hook(int button, int x, int y, t_fct *fct);
+void		check_mouse_change(t_fct *fct);
 
 //Complexe manipulation
 void		add_complexe(t_complexe *z1, t_complexe z2, t_complexe z3);
@@ -227,5 +235,9 @@ void		mult_complexe(t_complexe *z, t_complexe z1, t_complexe z2);
 void		set_complexe(t_complexe *z, long double reel, long double img);
 long double	mod_sq_complexe(t_complexe z);
 long double	mod_complexe(t_complexe z);
+
+//lst utils a integrer a la libft
+t_list		*ft_lstnieme(t_list *lst, int n);
+void		ft_lstdelfront(t_list **lst);
 
 #endif

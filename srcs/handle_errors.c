@@ -12,6 +12,12 @@
 
 #include "fct.h"
 
+void	usage()
+{
+	printf("%s\n%s\n", EXEC_PROTO, EXEC_PROTO2);
+	printf("%s\n\n", EXEC_PROTO3);
+}
+
 void	free_col(void *col)
 {
 	free((t_color *)col);
@@ -20,7 +26,8 @@ void	free_col(void *col)
 void	handle_error(char *err, t_fct *fct)
 {
 	freee(fct);
-	printf("%s\n%s\n", err, EXEC_PROTO);
+	printf("\n%s\n\n", err);
+	usage();
 	exit(0);
 }
 
