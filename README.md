@@ -17,7 +17,7 @@ $ ./fractol julia 40
 ```
 ***
 ## Controls
-__Basics__
+__Basics__   
 MOVE : Key Arrows  
 FAST MOVE : Shift + Key Arrows  
 ZOOM : Mouse Scroll  
