@@ -23,7 +23,7 @@ FAST MOVE : Shift + Key Arrows
 ZOOM : Mouse Scroll  
 ADD PRECISION : Press 'P'  
 LESS PRECISIONS : Press ':'  
-CHANGE COLORS : Press Tab
+CHANGE COLORS : Press Tab  
 ON/OFF COLOR MENU : Press 'C'  
 ON/OFF SMOOTH : Press 'L' 
 FIXE THE COMPLEXE VALUE : *only for Julia fractal* Mouse Left Click
