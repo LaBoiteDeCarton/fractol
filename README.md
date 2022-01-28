@@ -25,7 +25,7 @@ ADD PRECISION : Press 'P'
 LESS PRECISIONS : Press ':'  
 CHANGE COLORS : Press Tab  
 ON/OFF COLOR MENU : Press 'C'  
-ON/OFF SMOOTH : Press 'L' 
+ON/OFF SMOOTH : Press 'L'  
 FIXE THE COMPLEXE VALUE : *only for Julia fractal* Mouse Left Click
 ***
 __Inside the color menu__  
