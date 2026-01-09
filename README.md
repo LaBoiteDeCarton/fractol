@@ -43,22 +43,28 @@ Scroll your mouse up and down to change B value of the color
 Here are some examples of the beautiful fractals you can generate with this program:
 
 ### Julia Sets
-![Julia Fractal](screenshots/Capture%20d'écran%202022-01-07%20à%2000.35.23.png)
-![Julia Fractal with Colors](screenshots/Capture%20d'écran%202022-01-07%20à%2000.36.54.png)
+![Julia Fractal](screenshots/FractalJulia.png)
+![Julia Fractal Blue](screenshots/FractalJuliaBlue.png)
+![Julia Fractal Red](screenshots/FractalJuliaRed.png)
 
-### Mandelbrot Sets  
-![Mandelbrot Fractal](screenshots/Capture%20d'écran%202022-01-07%20à%2000.37.24.png)
-![Mandelbrot with Different Colors](screenshots/Capture%20d'écran%202022-01-07%20à%2000.38.11.png)
+### Julia Set Variations  
+![Julia Blue-Green](screenshots/FractalJuliaBlueGreen.png)
+![Julia Light Blue](screenshots/FractalJuliaLightBlue.png)
+![Julia Thunder](screenshots/FractalJuliaThunder.png)
 
-### Color Variations
-![Colorful Fractal 1](screenshots/Capture%20d'écran%202022-01-08%20à%2021.40.02.png)
-![Colorful Fractal 2](screenshots/Capture%20d'écran%202022-01-08%20à%2021.45.10.png)
+### Julia Color Mix
+![Julia Mix 1](screenshots/FractalJuliaMix.png)
+![Julia Mix 2](screenshots/FractalJuliaMix2.png)
+![Julia Mix 3](screenshots/FractalJuliaMix3.png)
 
-### High Precision Renders
-![High Detail Fractal 1](screenshots/Capture%20d'écran%202022-01-15%20à%2021.16.27.png)
-![High Detail Fractal 2](screenshots/Capture%20d'écran%202022-01-15%20à%2021.30.43.png)
+### Zoom Effects - Julia
+![Julia Zoom](screenshots/FractalJuliaZoom.png)
+![Julia Zoom Blue](screenshots/FractalJuliaZoomBlue.png)
 
-### Zoom Effects
-![Zoomed Fractal 1](screenshots/Capture%20d'écran%202022-01-15%20à%2023.09.24.png)
-![Zoomed Fractal 2](screenshots/Capture%20d'écran%202022-01-16%20à%2002.12.18.png)
-
+### Mandelbrot Zoom Series
+![Mandelbrot Zoom 1](screenshots/FractalMandelbrotZoom.png)
+![Mandelbrot Zoom 2](screenshots/FractalMandelbrotZoom2.png)
+![Mandelbrot Zoom 3](screenshots/FractalMandelbrotZoom3.png)
+![Mandelbrot Zoom 4](screenshots/FractalMandelbrotZoom4.png)
+![Mandelbrot Zoom 5](screenshots/FractalMandelbrotZoom5.png)
+![Mandelbrot Zoom 6](screenshots/FractalMandelbrotZoom6.png)
