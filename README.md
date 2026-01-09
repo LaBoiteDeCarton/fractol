@@ -37,3 +37,28 @@ Move your mouse horizontally to change R value of the color
 Move your mouse vertically to change G value of the color  
 Scroll your mouse up and down to change B value of the color  
 
+***
+## Screenshots
+
+Here are some examples of the beautiful fractals you can generate with this program:
+
+### Julia Sets
+![Julia Fractal](screenshots/Capture%20d'écran%202022-01-07%20à%2000.35.23.png)
+![Julia Fractal with Colors](screenshots/Capture%20d'écran%202022-01-07%20à%2000.36.54.png)
+
+### Mandelbrot Sets  
+![Mandelbrot Fractal](screenshots/Capture%20d'écran%202022-01-07%20à%2000.37.24.png)
+![Mandelbrot with Different Colors](screenshots/Capture%20d'écran%202022-01-07%20à%2000.38.11.png)
+
+### Color Variations
+![Colorful Fractal 1](screenshots/Capture%20d'écran%202022-01-08%20à%2021.40.02.png)
+![Colorful Fractal 2](screenshots/Capture%20d'écran%202022-01-08%20à%2021.45.10.png)
+
+### High Precision Renders
+![High Detail Fractal 1](screenshots/Capture%20d'écran%202022-01-15%20à%2021.16.27.png)
+![High Detail Fractal 2](screenshots/Capture%20d'écran%202022-01-15%20à%2021.30.43.png)
+
+### Zoom Effects
+![Zoomed Fractal 1](screenshots/Capture%20d'écran%202022-01-15%20à%2023.09.24.png)
+![Zoomed Fractal 2](screenshots/Capture%20d'écran%202022-01-16%20à%2002.12.18.png)
+
